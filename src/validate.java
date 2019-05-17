@@ -74,7 +74,7 @@ public class validate extends HttpServlet {
             		HttpSession session=request.getSession();  
             		session.setAttribute("login_username",username); 
             		//rd_login.forward(request, response);
-            		response.sendRedirect("add_employee.jsp");
+            		response.sendRedirect("home_admin.jsp");
             	}else {
             		String msg = "Invalid Credentials";
             		//RequestDispatcher rd_inv = request.getRequestDispatcher("login.jsp");

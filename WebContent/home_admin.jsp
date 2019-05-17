@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="add_employee.css" type="text/css" />
 <link rel="stylesheet" href="navigation.css" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="main.css" type="text/css" />
 <link rel="stylesheet" href="main1.css" type="text/css" />
@@ -17,64 +16,72 @@
 <script type="text/javascript" src="jquery.scrollex.min.js"></script>
 <script type="text/javascript" src="util.js"></script>
 <script type="text/javascript" src="main.js"></script>					
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body>
 	<% 
             String username = (String)session.getAttribute("login_username");
-    %>
-     <nav>
+        %>
+        <nav>
    	<div id="logo">Employee Management System</div>
 
 	<label for="drop" class="toggle">Menu</label>
 	<input type="checkbox" id="drop" />
 	    <ul class="menu">
-	        <li><a href="home_employee.jsp"><i class="fa fa-home">&nbsp;Home</i></a></li>
+	        <li><a href="home_admin.jsp"><i class="fa fa-home">&nbsp;Home</i></a></li>
+	        <li>
+	            <label for="employees" class="toggle">Employees</label>
+	            <a><i class="fa fa-user">&nbsp;Employees</i></a>
+	            <input type="checkbox" id="drop-1"/>
+	            <ul>
+	                <li><a href="add_employee.jsp">Add Employees</a></li>
+	                <li><a href="manage_employees.jsp">Manage Employees</a></li>
+	            </ul> 
+	        </li>
 	
 	        <li>
 		        <label for="task_manager" class="toggle">Task Manager</label>
 		        <a><i class="fa fa-clock-o">&nbsp;Task Manager</i></a>
-		        <input type="checkbox" id="drop-1"/>
+		        <input type="checkbox" id="drop-2"/>
 		        <ul>
-		            <li><a href="view_tasks.jsp">View Tasks</a></li>
+		            <li><a href="add_task.jsp">Add Tasks</a></li>
+		            <li><a href="manage_tasks.jsp">Manage Tasks</a></li>
 		        </ul>
 	        </li>
 	        
 	        <li>
 		        <label for="leaves" class="toggle">Leaves</label>
 		        <a><i class="fa fa-child">&nbsp;Leaves</i></a>
-		        <input type="checkbox" id="drop-2"/>
+		        <input type="checkbox" id="drop-3"/>
 		        <ul>
-		            <li><a href="apply_leave.jsp">Apply Leaves</a></li>
-		            <li><a href="view_leaves.jsp">View Leaves</a></li>
+		            <li><a href="manage_leaves.jsp">Manage Leaves</a></li>
 		        </ul>
 	        </li>
 	        
 	        <li>
 		        <label for="attendance" class="toggle">Attendance</label>
 		        <a><i class="fa fa-user-plus">&nbsp;Attendance</i></a>
-		        <input type="checkbox" id="drop-3"/>
+		        <input type="checkbox" id="drop-5"/>
 		        <ul>
-		            <li><a href="view_attendance.jsp">View Attendance</a></li>
+		            <li><a href="add_attendance.jsp">Add Attendance</a></li>
+		            <li><a href="manage_attendance.jsp">Manage Attendance</a></li>
 		        </ul>
 	        </li>
 	        
 	        <li>
-		        <label for="report" class="toggle">Report</label>
-		        <a href="view_report.jsp"><i class="fa fa-line-chart">&nbsp;Report</i></a>
-		        <input type="checkbox" id="drop-4"/>
-
+		        <label for="documents" class="toggle">Documents</label>
+		        <a><i class="fa fa-book">&nbsp;Documents</i></a>
+		        <input type="checkbox" id="drop-6"/>
+				 <ul>
+		            <li><a href="get_history.jsp">History</a></li>
+		            <li><a href="get_report.jsp">Report</a></li>
+		        </ul>
 	        </li>
 	        
 	        <li>
-		        <label for="details" class="toggle">View Details</label>
-		        <a href="view_details.jsp"><i class="fa fa-line-chart">&nbsp;View Details</i></a>
-		        <input type="checkbox" id="drop-5"/>
-
-	        </li>
-	        <li>
 		        <label for="welcome" class="toggle">Welcome <%= username%></label>
 		        <a><i class="fa fa-info-circle">&nbsp;Welcome <%= username%></i></a>
-		        <input type="checkbox" id="drop-6"/>
+		        <input type="checkbox" id="drop-4"/>
 		        <ul>
 		            <li><a href="#settings">Settings</a></li>
 		            <li><a href="logoutServlet">Logout</a></li>
@@ -83,7 +90,6 @@
 	        
 	    </ul>
 	</nav>
-	
 	<section class="banner full">
 				<article>
 					<img src="images/slide02.jpg" alt="" />
