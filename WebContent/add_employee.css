@@ -1,0 +1,72 @@
+body{
+    font-family: calibri;
+}
+div{
+    padding: 5px 0px 0px 15px;
+}
+.fname, .lname{
+    width: 48%;
+    height: 23px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    margin: 6px 0;
+    padding: 3px 4px;
+}
+input[type=submit] {
+    width: 30%;
+    background: #6C3483;
+    border: 0;
+    border-radius: 2px;
+    color: white;
+    margin: 6px -70px;
+    padding: 8px 8px;
+    cursor: pointer;
+}
+input[type=reset] {
+    width: 30%;
+    background: #A93226;
+    border: 0;
+    border-radius: 2px;
+    color: white;
+    margin: 20px 70px;
+    padding: 8px 8px;
+    cursor: pointer;
+}
+input[type=reset]:hover{
+    background: #CB4335;
+}
+.fields{
+    width: 97%;
+    height: 23px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    margin: 6px 0;
+    padding: 3px 4px;
+}
+select{
+    width: 98%;
+    height: 30px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    margin: 6px 0;
+    padding: 3px 4px;
+}
+input[type=submit]:hover{
+    background: #8E44AD;
+}
+a{
+    text-decoration: none;
+}
+.error {
+    color: red;
+    font-size: 15px;
+}
+label{
+    font-size: 14px;
+}
+figure{
+    float: left;
+}
