@@ -52,7 +52,7 @@
 	        
 	        <li>
 		        <label for="report" class="toggle">Report</label>
-		        <a href="get_report.jsp"><i class="fa fa-line-chart">&nbsp;Report</i></a>
+		        <a href="view_report.jsp"><i class="fa fa-line-chart">&nbsp;Report</i></a>
 		        <input type="checkbox" id="drop-4"/>
 
 	        </li>

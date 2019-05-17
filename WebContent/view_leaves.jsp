@@ -54,7 +54,7 @@
 	        
 	        <li>
 		        <label for="report" class="toggle">Report</label>
-		        <a href="get_report.jsp"><i class="fa fa-line-chart">&nbsp;Report</i></a>
+		        <a href="view_report.jsp"><i class="fa fa-line-chart">&nbsp;Report</i></a>
 		        <input type="checkbox" id="drop-4"/>
 
 	        </li>
@@ -98,6 +98,7 @@
         pi.setString(1, id);
         ResultSet result = pi.executeQuery();
     %>
+    <center><h3>Leaves</h3></center>
     <div>
             <table id="employees">
                 

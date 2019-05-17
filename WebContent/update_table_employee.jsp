@@ -67,6 +67,15 @@
 	            p.setString(12, emp_id);
 	        }  
 	        p.executeUpdate();
+	        PreparedStatement ph = con.prepareStatement("update history set firstname=?, lastname=?, email=?, doj=?, department=?, designation=? where emp_id=?");
+	        p.setString(1, emp_fname);
+            p.setString(2, emp_lname);
+            p.setString(3, emp_email);
+            p.setString(4, emp_doj);
+            p.setString(5, department);
+            p.setString(6, designation);
+            ph.executeUpdate();
+            
 	        String msg = "Employee Info Updated Successfully";
 		    RequestDispatcher rd = request.getRequestDispatcher("manage_employees.jsp");
 		    request.setAttribute("msg",msg);

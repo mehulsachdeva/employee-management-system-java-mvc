@@ -127,7 +127,7 @@ public class add_table_employee extends HttpServlet {
                 throw new NewException("Date Of Joining Cannot Be Left Empty");
             }
             //Throw Error For Past Date Of Joining Dates
-            if(difference.getYears()<0 || difference.getDays()<0 || difference.getMonths()<0) {
+            if(difference.getYears()>0 || difference.getDays()>0 || difference.getMonths()>0) {
                 throw new NewException("Date Of Joining Not Applicable");
             }
             
@@ -172,16 +172,19 @@ public class add_table_employee extends HttpServlet {
                 p.setString(13, salary);
                 p.setBlob(14, inputStream);
                 p.executeUpdate();
+                PreparedStatement ph = con.prepareStatement("insert into history(firstname, lastname, email, doj, department, designation, year) values (?,?,?,?,?,?,?)");
+                ph.setString(1, emp_fname);
+                ph.setString(2, emp_lname);
+                ph.setString(3, emp_email);
+                ph.setString(4, emp_doj);
+                ph.setString(5, department);
+                ph.setString(6, designation);
+                ph.setString(7, String.valueOf(joined_year));
+                ph.executeUpdate();
                 String msg = "Employee Added Successfully";
-//        	    RequestDispatcher rd = request.getRequestDispatcher("add_employee.jsp");
-//        	    request.setAttribute("msg",msg);
-//        	    rd.include(request, response);
                 response.sendRedirect("add_employee.jsp?msg=" + msg);
             }
         }catch(NewException e) {
-//            RequestDispatcher rd_err = request.getRequestDispatcher("add_employee.jsp");
-//            request.setAttribute("error",String.valueOf(e));
-//            rd_err.include(request, response);
         	response.sendRedirect("add_employee.jsp?error=" + String.valueOf(e));
         }catch(ClassNotFoundException e){
             out.println(e);

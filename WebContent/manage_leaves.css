@@ -23,7 +23,6 @@ input[type=submit] {
 input[type=submit]:hover{
     background: #8E44AD;
 }
-
 #employees {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;

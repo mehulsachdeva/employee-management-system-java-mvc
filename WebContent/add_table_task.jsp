@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page import="java.util.*"%>
 <%@page import="java.sql.*"%>
 <%@page import="java.time.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -63,10 +64,38 @@
 	            p.setString(5, deadline);
 	            p.setString(6, status);
 	            p.executeUpdate();
-	            String msg = "Task Added Successfully";
-	    	    RequestDispatcher rd = request.getRequestDispatcher("add_task.jsp");
-	    	    request.setAttribute("msg",msg);
-	    	    rd.include(request, response);
+	            PreparedStatement pcheck = con.prepareStatement("select * from history where emp_id=?");
+	            pcheck.setString(1, emp_id);
+	            ResultSet r = pcheck.executeQuery();
+	            if(r.next()){
+	            	Set<String> tasks_names = new HashSet<String>();
+	            	Set<String> skills_names = new HashSet<String>();
+	            	String tasks = "";
+	            	String skills = "";
+	            	PreparedStatement pget = con.prepareStatement("select task_name, skills_required from employee_task_tracker where emp_id=?");
+	            	pget.setString(1, emp_id);
+	            	ResultSet rget = pget.executeQuery();
+	            	while(rget.next()){
+	            		tasks_names.add(rget.getString(1));
+	            		skills_names.add(rget.getString(2));
+	            	}
+	            	for(String element: tasks_names) {
+	            		tasks += element + ",";
+	            	}
+	            	for(String element: skills_names) {
+	            		skills += element + ",";
+	            	}
+	            	PreparedStatement ph = con.prepareStatement("update history set tasks=?, skills=? where emp_id=?");
+	                ph.setString(1, tasks);
+	                ph.setString(2, skills);
+	                ph.setString(3, emp_id);
+	                ph.executeUpdate();
+	                String msg = "Task Added Successfully";
+		    	    RequestDispatcher rd = request.getRequestDispatcher("add_task.jsp");
+		    	    request.setAttribute("msg",msg);
+		    	    rd.include(request, response);
+	            }
+	            
 		    }else{
 		    	String msg = "No Employee Found";
 		    	RequestDispatcher rd = request.getRequestDispatcher("add_task.jsp");

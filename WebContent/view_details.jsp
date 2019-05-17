@@ -55,7 +55,7 @@
 	        
 	        <li>
 		        <label for="report" class="toggle">Report</label>
-		        <a href="get_report.jsp"><i class="fa fa-line-chart">&nbsp;Report</i></a>
+		        <a href="view_report.jsp"><i class="fa fa-line-chart">&nbsp;Report</i></a>
 		        <input type="checkbox" id="drop-4"/>
 
 	        </li>
@@ -101,7 +101,8 @@
             byte[] imgData = image.getBytes(1,(int)image.length());
             String imgDataBase64=new String(Base64.getEncoder().encode(imgData));
 	%>
-	<center>
+	<center><h3>Details</h3></center>
+	<div>
 	<table id="employees">
 		<tr>
 			<td>Employee ID</td>
@@ -157,7 +158,7 @@
 			<td><%= result.getString(14) %></td>
 		</tr>
 	</table>
-	</center>
+	</div>
 	<%
 	    }
 	%>

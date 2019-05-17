@@ -69,7 +69,7 @@
 		        <input type="checkbox" id="drop-6"/>
 				 <ul>
 		            <li><a href="get_history.jsp">History</a></li>
-		            <li><a href="get_report.jsp"></a></li>
+		            <li><a href="get_report.jsp">Report</a></li>
 		        </ul>
 	        </li>
 	        
