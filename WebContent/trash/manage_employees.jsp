@@ -93,22 +93,16 @@
                 <input type="submit" value="SEARCH" />
             </center>
         </form>
-        <center>
-        <%    
-        	String msg = (String)request.getAttribute("msg");
-        	String msg_deleted = request.getParameter("msg");
-            if(msg!=null && msg_deleted==null){
-        %>
-        <span class="msg"><%= msg%></span>
-        <%
-			}
-            else if(msg==null && msg_deleted!=null){
-		%>
-		<span class="msg"><%= msg_deleted%></span>
-		<%
-            }
-		%>
-		</center>
+	        <center>
+	        <%    
+	        	String msg = request.getParameter("msg");
+	            if(msg!=null){
+	        %>
+	        <span class="msg"><%= msg%></span>
+	        <%
+				}
+			%>
+			</center>
         </div>
         <%
         	ResultSet result;

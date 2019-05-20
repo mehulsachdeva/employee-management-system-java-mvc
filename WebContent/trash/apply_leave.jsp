@@ -76,15 +76,17 @@
 	    </ul>
 	</nav>
 	<div>	
+	<center><h3>Apply Leave</h3></center>
      		<%
-     			String msg = (String)request.getAttribute("msg");
+     			String msg = request.getParameter("msg");
      			if(msg!=null){
      		%>
      		<center><span class="msg"><%= msg%></span></center>
      		<%
      			}
      		%>
-            <form action="apply_table_leave.jsp" method="POST">
+     		
+            <form action="apply_table_leave" method="POST">
                                     
             <label for="from_date">From Date</label>
             <input type="text" class="fields" name="from_date" placeholder="DD/MM/YYYY" /><br>

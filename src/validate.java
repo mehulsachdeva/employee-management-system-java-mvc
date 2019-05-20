@@ -66,28 +66,19 @@ public class validate extends HttpServlet {
                 if(employee_status) {
                 	HttpSession session=request.getSession();  
             		session.setAttribute("login_username",username);
-            		//rd_login.forward(request, response);
-            		response.sendRedirect("home_employee.jsp");
+            		response.sendRedirect("employee/home_employee.jsp");
                 }
                 else if(admin_status) {
-            		//RequestDispatcher rd_login = request.getRequestDispatcher("add_employee.jsp");
             		HttpSession session=request.getSession();  
             		session.setAttribute("login_username",username); 
-            		//rd_login.forward(request, response);
-            		response.sendRedirect("home_admin.jsp");
+            		response.sendRedirect("admin/home_admin.jsp");
             	}else {
             		String msg = "Invalid Credentials";
-            		//RequestDispatcher rd_inv = request.getRequestDispatcher("login.jsp");
-            		//request.setAttribute("invalid",msg);
-            		//rd_inv.include(request, response);
             		response.sendRedirect("login.jsp?invalid=" + msg);
                 }
             	
             }
         }catch(Exception e){
-            //RequestDispatcher rd_err = request.getRequestDispatcher("login.jsp");
-            //request.setAttribute("error",String.valueOf(e));
-            //rd_err.include(request, response);
         	response.sendRedirect("login.jsp?error=" + String.valueOf(e));
         }
     }

@@ -85,16 +85,14 @@
 	<div>	
 			<center><h3>Add Tasks</h3></center>
      		<%
-     			String msg = (String)request.getAttribute("msg");
+     			String msg = request.getParameter("msg");
      			if(msg!=null){
      		%>
      		<center><span class="msg"><%= msg%></span></center>
      		<%
      			}
      		%>
-     	
-            
-            <form action="add_table_task.jsp" method="POST">
+            <form action="add_table_task" method="POST">
                                     
             <label for="emp_id">Employee ID</label>
             <input type="text" class="fields" name="emp_id" placeholder="Employee ID" /><br>

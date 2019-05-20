@@ -23,7 +23,7 @@
 	   	ResultSet result = p.executeQuery();
 	   	if(result.next()){
 	%>
-   	<form action="update" method="POST" enctype="multipart/form-data">    
+   	<form action="update_employee" method="POST" enctype="multipart/form-data">    
    	     
    	    <label for="username">Employee ID</label>
         <input type="text" class="fields" value="<%= result.getString(1)%>" name="emp_id" placeholder="Employee ID" readonly="readonly" />

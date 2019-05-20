@@ -105,8 +105,7 @@
 	%>
 	<center><h3>Attendance For <%= date%></h3></center>
 	<div>
-	<form action="store_attendance.jsp" method="POST">
-	
+	<form action="store_attendance" method="POST">
 		<center>
 			<label class="label_attendance_upload">
 				<i class="fa fa-cloud-upload">&nbsp;&nbsp;</i>Upload CSV File For Attendance&nbsp;

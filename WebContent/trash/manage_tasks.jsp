@@ -1,21 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page import="java.time.*"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Manage Leaves</title>
-<link rel="stylesheet" href="manage_leaves.css" type="text/css" />
+<title>Insert title here</title>
 <link rel="stylesheet" href="navigation.css" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="manage_employees.css" />
 </head>
 <body>
 	<% 
-        String username = (String)session.getAttribute("login_username");
-    %>
-   <nav>
+            String username = (String)session.getAttribute("login_username");
+        %>
+        <nav>
    	<div id="logo">Employee Management System</div>
 
 	<label for="drop" class="toggle">Menu</label>
@@ -83,117 +84,107 @@
 	        
 	    </ul>
 	</nav>
-    <br>
-    <div>
-    	<center><h3>Manage Leave(s)</h3></center>
-	    <form action="" method="POST">
-	        <center>
-	            <input type="text" name="search_query" placeholder="Filter Search"/>
-	            <input type="submit" value="SEARCH" />
-	        </center>
-	    </form>
+	<div>
+		<center><h3>Manage Task(s)</h3></center>
+        <form action="" method="POST">
+            <center>
+                <input type="text" name="search_query" placeholder="Filter Search"/>
+                <input type="submit" value="SEARCH" />
+            </center>
+        </form>
+        <center>
+        <%
+			//String msg = (String)request.getAttribute("msg");
+	    	String msg = request.getParameter("msg");
+			if(msg!=null){
+		%>
+		<span class="msg"><%= msg%></span>
+		<%
+			}
+		%>
+		</center>
     </div>
-    <center>
     <%
-		String msg = (String)request.getAttribute("msg");
-    	String msg_deleted = request.getParameter("msg");
-		if(msg!=null){
-	%>
-	<span class="msg_update"><%= msg%></span>
-	<%
-		}
-		else if(msg==null && msg_deleted!=null){
-	%>
-	<span class="msg_update"><%= msg_deleted%></span>
-	<%
-           }
-	%>
-	</center>
-    <%
-       	ResultSet result = null;
+       	ResultSet result;
        	String sql_search_query = "";
-       	PreparedStatement p = null;
+       	PreparedStatement p;
        	String query = request.getParameter("search_query");
         Class.forName("com.mysql.jdbc.Driver");
 		String url = "jdbc:mysql://localhost/test?user=mehul&password=mehul";	
         Connection con = DriverManager.getConnection(url);
         if(query==null){
-               sql_search_query = "select * from employee_leave order by status desc";
-               p = con.prepareStatement(sql_search_query);
-           }else{
-               sql_search_query = "select * from employee_leave where emp_id LIKE ? or firstname LIKE ? or lastname LIKE ? or department LIKE ? or contact=? or email=? or designation LIKE ? or status=? or reason=? or from_date=? or to_date=? order by status desc";
-               p = con.prepareStatement(sql_search_query);
-               p.setString(1, "%" + query + "%");
-               p.setString(2, "%" + query + "%");
-               p.setString(3, "%" + query + "%");
-               p.setString(4, "%" + query + "%");
-               p.setString(5, "%" + query + "%");
-               p.setString(6, "%" + query + "%");
-               p.setString(7, "%" + query + "%");
-               p.setString(8, "%" + query + "%");
-               p.setString(9, "%" + query + "%");
-               p.setString(10, "%" + query + "%");
-               p.setString(11, "%" + query + "%");
-           }
-           result = p.executeQuery();
-        %>
-    <div>
-            <table id="employees">        
+            sql_search_query = "select * from employee_task_tracker order by status desc";
+            p = con.prepareStatement(sql_search_query);
+        }else{
+            sql_search_query = "select * from employee_task_tracker where emp_id LIKE ? or task_id LIKE ? or task_name LIKE ? or skills_required LIKE ? or deadline LIKE ? or status LIKE ? order by status desc";
+            p = con.prepareStatement(sql_search_query);
+            p.setString(1, "%" + query + "%");
+            p.setString(2, "%" + query + "%");
+            p.setString(3, "%" + query + "%");
+            p.setString(4, "%" + query + "%");
+            p.setString(5, "%" + query + "%");
+            p.setString(6, "%" + query + "%");
+        }
+        result = p.executeQuery();
+     %>
+     <div>
+            <table id="employees">
+                
+            
             <tr>
                 <th>Emp ID</th>
-                <th>Leave ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Contact No.</th>
-                <th>Department</th>
-                <th>Designation</th>
-                <th>From Date</th>
-                <th>To Date</th>
+                <th>Task ID</th>
+                <th>Task Name</th>
+                <th>Skills Required</th>
+                <th>Start Date</th>
+                <th>Deadline</th>
                 <th>Status</th>
-                <th>Reason</th>
                 <th></th>
             </tr>
-            <tr>
+            
             <%
             	String color = "";
                     while(result.next()){
-            %>
-            <td><%= result.getString(1)%></td>
-            <td><%= result.getString(2)%></td>
-            <%      	
-                        for(int i=3;i<=12;i++){
-                        	if(i==11){
-	                        	if((result.getString(11)).equals("Pending")){
-	                        		color = "black";
+                        for(int i=1;i<=7;i++){
+                        	if(i==7){
+	                        	if((result.getString(7)).equals("Inactive")){
+	                        		color = "grey";
 	                        	}
-	                        	else if((result.getString(11)).equals("Approved")){
-	                        		color = "green";
-	                        	}else{
+	                        	else if((result.getString(7)).equals("Late")){
 	                        		color = "red";
+	                        	}
+	                        	else if((result.getString(7)).equals("Completed")){
+	                        		color = "green";
+	                        	}
+	                        	else if((result.getString(7)).equals("Completed Late")){
+	                        		color = "orange";
+	                        	}
+	                        	else{
+	                        		color = "#007FFF";
 	                        	}
              %>
                         	
-             <td style="color:<%= color%>;"><%= result.getString(11)%></td>
+             <td style="color:<%= color%>;"><%= result.getString(7)%></td>
             
             <%
-               	}else{	
+               	}else{		
             %>
-            
-             <td><%= result.getString(i)%></td>
+                
+             <td><%= result.getString(i)%></td>       
             
             <%
-               			}
                		}
+                }
+               
             %>
-            
-            <%
-            	String emp_id = result.getString(1);
-            	String leave_id = result.getString(2);
+           
+            <%	
+            	String id = result.getString(1);
+            	String task_id = result.getString(2);
             %>
                 <td>
-                <a href="update_leave.jsp?id=<%= emp_id%>&leave=<%= leave_id%>">Update</a>
-                <a href="delete_leave.jsp?id=<%= emp_id%>&leave=<%= leave_id%>">Delete</a>
+                <a href="update_task.jsp?id=<%= id%>&task_id=<%= task_id%>">Update</a>
+                <a href="delete_task.jsp?id=<%= id%>&task_id=<%= task_id%>">Delete</a>
                 </td>
             </tr>
             
@@ -204,5 +195,6 @@
             
             </table>
         </div>
+        
 </body>
 </html>

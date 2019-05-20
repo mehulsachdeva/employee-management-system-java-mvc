@@ -182,10 +182,10 @@ public class add_table_employee extends HttpServlet {
                 ph.setString(7, String.valueOf(joined_year));
                 ph.executeUpdate();
                 String msg = "Employee Added Successfully";
-                response.sendRedirect("add_employee.jsp?msg=" + msg);
+                response.sendRedirect("admin/add_employee.jsp?msg=" + msg);
             }
         }catch(NewException e) {
-        	response.sendRedirect("add_employee.jsp?error=" + String.valueOf(e));
+        	response.sendRedirect("admin/add_employee.jsp?error=" + String.valueOf(e));
         }catch(ClassNotFoundException e){
             out.println(e);
         }catch(SQLException e){

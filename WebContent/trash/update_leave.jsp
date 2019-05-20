@@ -24,7 +24,7 @@
 	   	if(result.next()){
 	%>
 	
-	<form action="update_table_leave.jsp" method="POST">    
+	<form action="update_leave" method="POST">    
    	              
        <label for="emp_id">Employee ID</label>
        <input type="text" class="fields" value="<%= result.getString(1)%>" name="emp_id" placeholder="Employee ID" />

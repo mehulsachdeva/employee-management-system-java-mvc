@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="apply_leave.css" />
+<link rel="stylesheet" type="text/css" href="../css/apply_leave.css" />
 </head>
 <body>
 	<%
@@ -23,7 +23,7 @@
 	   	if(result.next()){
 	%>
 	
-	<form action="update_table_task.jsp" method="POST">
+	<form action="../update_task" method="POST">
                                     
             <label for="emp_id">Employee ID</label>
             <input type="text" class="fields" value = "<%= result.getString(1)%>" name="emp_id" placeholder="Employee ID" readonly="readonly"/><br>

@@ -8,28 +8,28 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-<link rel="stylesheet" href="navigation.css" type="text/css" />
+<link rel="stylesheet" href="../css/navigation.css" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="manage_employees.css" />
+<link rel="stylesheet" type="text/css" href="../css/manage_employees.css" />
 </head>
 <body>
 	<% 
             String username = (String)session.getAttribute("login_username");
         %>
         <nav>
-   	<div id="logo">Employee Management System</div>
+        <div id="logo">Employee Management System</div>
 
 	<label for="drop" class="toggle">Menu</label>
 	<input type="checkbox" id="drop" />
 	    <ul class="menu">
-	        <li><a href="home_admin.jsp"><i class="fa fa-home">&nbsp;Home</i></a></li>
+	        <li><a href="../admin/home_admin.jsp"><i class="fa fa-home">&nbsp;Home</i></a></li>
 	        <li>
 	            <label for="employees" class="toggle">Employees</label>
 	            <a><i class="fa fa-user">&nbsp;Employees</i></a>
 	            <input type="checkbox" id="drop-1"/>
 	            <ul>
-	                <li><a href="add_employee.jsp">Add Employees</a></li>
-	                <li><a href="manage_employees.jsp">Manage Employees</a></li>
+	                <li><a href="../admin/add_employee.jsp">Add Employees</a></li>
+	                <li><a href="../admin/manage_employees.jsp">Manage Employees</a></li>
 	            </ul> 
 	        </li>
 	
@@ -38,8 +38,8 @@
 		        <a><i class="fa fa-clock-o">&nbsp;Task Manager</i></a>
 		        <input type="checkbox" id="drop-2"/>
 		        <ul>
-		            <li><a href="add_task.jsp">Add Tasks</a></li>
-		            <li><a href="manage_tasks.jsp">Manage Tasks</a></li>
+		            <li><a href="../admin/add_task.jsp">Add Tasks</a></li>
+		            <li><a href="../admin/manage_tasks.jsp">Manage Tasks</a></li>
 		        </ul>
 	        </li>
 	        
@@ -48,7 +48,7 @@
 		        <a><i class="fa fa-child">&nbsp;Leaves</i></a>
 		        <input type="checkbox" id="drop-3"/>
 		        <ul>
-		            <li><a href="manage_leaves.jsp">Manage Leaves</a></li>
+		            <li><a href="../admin/manage_leaves.jsp">Manage Leaves</a></li>
 		        </ul>
 	        </li>
 	        
@@ -57,8 +57,8 @@
 		        <a><i class="fa fa-user-plus">&nbsp;Attendance</i></a>
 		        <input type="checkbox" id="drop-5"/>
 		        <ul>
-		            <li><a href="add_attendance.jsp">Add Attendance</a></li>
-		            <li><a href="manage_attendance.jsp">Manage Attendance</a></li>
+		            <li><a href="../admin/add_attendance.jsp">Add Attendance</a></li>
+		            <li><a href="../admin/manage_attendance.jsp">Manage Attendance</a></li>
 		        </ul>
 	        </li>
 	        
@@ -67,8 +67,8 @@
 		        <a><i class="fa fa-book">&nbsp;Documents</i></a>
 		        <input type="checkbox" id="drop-6"/>
 				 <ul>
-		            <li><a href="get_history.jsp">History</a></li>
-		            <li><a href="get_report.jsp">Report</a></li>
+		            <li><a href="../admin/get_history.jsp">History</a></li>
+		            <li><a href="../admin/get_report.jsp">Report</a></li>
 		        </ul>
 	        </li>
 	        
@@ -78,7 +78,7 @@
 		        <input type="checkbox" id="drop-4"/>
 		        <ul>
 		            <li><a href="#settings">Settings</a></li>
-		            <li><a href="logoutServlet">Logout</a></li>
+		            <li><a href="../logoutServlet">Logout</a></li>
 		        </ul>
 	        </li>
 	        
@@ -93,19 +93,14 @@
             </center>
         </form>
         <center>
-        <%    
-        	String msg = request.getParameter("msg");
-        	String msg_deleted = request.getParameter("msg_deleted");
-            if(msg!=null && msg_deleted==null){
-        %>
-        <span class="msg"><%= msg%></span>
         <%
-			}
-            else if(msg==null && msg_deleted!=null){
+			//String msg = (String)request.getAttribute("msg");
+	    	String msg = request.getParameter("msg");
+			if(msg!=null){
 		%>
-		<span class="msg"><%= msg_deleted%></span>
+		<span class="msg"><%= msg%></span>
 		<%
-            }
+			}
 		%>
 		</center>
     </div>
@@ -188,8 +183,8 @@
             	String task_id = result.getString(2);
             %>
                 <td>
-                <a href="update_task.jsp?id=<%= id%>&task_id=<%= task_id%>">Update</a>
-                <a href="delete_task.jsp?id=<%= id%>&task_id=<%= task_id%>">Delete</a>
+                <a href="../admin/update_task.jsp?id=<%= id%>&task_id=<%= task_id%>">Update</a>
+                <a href="../admin/delete_task.jsp?id=<%= id%>&task_id=<%= task_id%>">Delete</a>
                 </td>
             </tr>
             
