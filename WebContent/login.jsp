@@ -7,6 +7,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="login.css" />
     </head>
+    
+    <script type="text/javascript">
+	    history.pushState(null, null, location.href);
+	    window.onpopstate = function () {
+	        history.go(1);
+	    };
+    </script>
+    
     <body>
         <div class="container">
             <div class="sub-container">

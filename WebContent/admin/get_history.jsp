@@ -13,7 +13,12 @@
 </head>
 <body>
 	<% 
-         String username = (String)session.getAttribute("login_username");
+		String username = "";
+		if(session.getAttribute("login_username")==null){
+			response.sendRedirect("../login.jsp");
+		}else{
+			username = (String)session.getAttribute("login_username");
+		}
      %>
      <nav>
         <div id="logo">Employee Management System</div>

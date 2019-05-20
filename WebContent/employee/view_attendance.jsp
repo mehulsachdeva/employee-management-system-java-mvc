@@ -12,9 +12,14 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-	<% 
-         String username = (String)session.getAttribute("login_username");
-     %>
+		<% 
+			String username = "";
+			if(session.getAttribute("login_username")==null){
+				response.sendRedirect("../login.jsp");
+			}else{
+				username = (String)session.getAttribute("login_username");
+			}
+        %>
      <nav>
    	<div id="logo">Employee Management System</div>
 
