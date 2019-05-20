@@ -83,6 +83,7 @@
 	    </ul>
 	</nav>
 	<div>	
+			<center><h3>Add Tasks</h3></center>
      		<%
      			String msg = (String)request.getAttribute("msg");
      			if(msg!=null){

@@ -85,6 +85,7 @@
 	</nav>
     <br>
     <div>
+    	<center><h3>Manage Leave(s)</h3></center>
 	    <form action="" method="POST">
 	        <center>
 	            <input type="text" name="search_query" placeholder="Filter Search"/>

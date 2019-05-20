@@ -81,24 +81,26 @@
 	        
 	    </ul>
 	</nav>
+	<div>
         <center>
-        <%
-            String error = request.getParameter("error");
-        	String msg = request.getParameter("msg");
-            if(error!=null && msg==null){
-        %>
-        <span class="error"><%= error%></span>
-        <%
-            }
-            else if(error==null && msg!=null){
-        %>
-        <span class="error"><%= msg%></span>
-        <%
-			}
-		%>
+	        <center><h3>Add Employee</h3></center>
+	        <%
+	            String error = request.getParameter("error");
+	        	String msg = request.getParameter("msg");
+	            if(error!=null && msg==null){
+	        %>
+	        <span class="error"><%= error%></span>
+	        <%
+	            }
+	            else if(error==null && msg!=null){
+	        %>
+	        <span class="error"><%= msg%></span>
+	        <%
+				}
+			%>
 		</center>
-        <div>
-	       
+        
+	       	
             <form action="add_table_employee" method="POST" enctype="multipart/form-data">
             
             <label for="emp_name">Employee Name</label><br>
