@@ -1,15 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.*"%>
-<%@page import="java.sql.*"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>History</title>
+<title>Get History</title>
 <link rel="stylesheet" href="../css/navigation.css" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="../css/manage_employees.css" />
+<style>
+#employees{
+	font-size: 13px;
+}
+</style>
 </head>
 <body>
 	<% 
@@ -23,8 +27,8 @@
      <nav>
         <div id="logo">Employee Management System</div>
 
-	<label for="drop" class="toggle">Menu</label>
-	<input type="checkbox" id="drop" />
+		<label for="drop" class="toggle">Menu</label>
+		<input type="checkbox" id="drop" />
 	    <ul class="menu">
 	        <li><a href="../admin/home_admin.jsp"><i class="fa fa-home">&nbsp;Home</i></a></li>
 	        <li>
@@ -81,20 +85,21 @@
 		        <a><i class="fa fa-info-circle">&nbsp;Welcome <%= username%></i></a>
 		        <input type="checkbox" id="drop-4"/>
 		        <ul>
-		            <li><a href="#settings">Settings</a></li>
 		            <li><a href="../logoutServlet">Logout</a></li>
 		        </ul>
 	        </li>
-	        
 	    </ul>
 	</nav>
+	
 	<center><h3>History Of Employees</h3></center>
+	
 	<form action="" method="POST">
         <center>
             <input type="text" name="search_query" placeholder="Filter Search"/>
             <input type="submit" value="SEARCH" />
         </center>
     </form>
+    
 	<div>
 		<table id="employees">
 		<tr>	
@@ -134,6 +139,7 @@
 	    result = ps.executeQuery();
 	    while(result.next()){
 	%>
+	
 		<tr>
 			<td><%= result.getString(1)%></td>
 			<td><%= result.getString(2)%></td>
@@ -146,6 +152,7 @@
 			<td><%= result.getString(9)%></td>
 			<td><%= result.getString(10)%></td>
 		<tr>
+		
 	<%
 	    }
 	%>

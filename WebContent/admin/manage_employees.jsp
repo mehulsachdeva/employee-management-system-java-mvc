@@ -6,27 +6,59 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-        <link rel="stylesheet" href="../css/navigation.css" type="text/css" />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="../css/manage_employees.css" />
-    </head>
-    <body>
-        <% 
-	        String username = "";
-			if(session.getAttribute("login_username")==null){
-				response.sendRedirect("../login.jsp");
-			}else{
-				username = (String)session.getAttribute("login_username");
-			}
-        %>
-        <nav>
-        <div id="logo">Employee Management System</div>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Manage Employees</title>
+<link rel="stylesheet" href="../css/navigation.css" type="text/css" />
+<link rel="stylesheet" type="text/css" href="../css/manage_employees.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+#employees{
+	font-size: 13px;
+}
+#update{
+	display: block;
+	font-size: 15px;
+	color: white;
+	padding: 2px 5px;
+	width: 15px;
+	border: 0;
+	border-radius: 2px;
+	background: #1D8348;
+}
+#update:hover{
+	background: #229954;
+}
+#delete{
+	margin: 2px 0px;
+	display: block;
+	font-size: 15px;
+	color: white;
+	padding: 2px 5px;
+	width: 15px;
+	border: 0;
+	border-radius: 2px;
+	background: #A93226;
+}
+#delete:hover{
+	background: #C0392B;
+}
+</style>
+</head>
+<body>
+	<% 
+	    String username = "";
+		if(session.getAttribute("login_username")==null){
+			response.sendRedirect("../login.jsp");
+		}else{
+			username = (String)session.getAttribute("login_username");
+		}
+	%>
+    <nav>
+    	<div id="logo">Employee Management System</div>
 
-	<label for="drop" class="toggle">Menu</label>
-	<input type="checkbox" id="drop" />
+		<label for="drop" class="toggle">Menu</label>
+		<input type="checkbox" id="drop" />
 	    <ul class="menu">
 	        <li><a href="../admin/home_admin.jsp"><i class="fa fa-home">&nbsp;Home</i></a></li>
 	        <li>
@@ -83,31 +115,35 @@
 		        <a><i class="fa fa-info-circle">&nbsp;Welcome <%= username%></i></a>
 		        <input type="checkbox" id="drop-4"/>
 		        <ul>
-		            <li><a href="#settings">Settings</a></li>
 		            <li><a href="../logoutServlet">Logout</a></li>
 		        </ul>
 	        </li>
-	        
 	    </ul>
 	</nav>
-        <div>
-        <center><h3>Manage Employee(s)</h3></center>
-        <form action="" method="POST">
-            <center>
-                <input type="text" name="search_query" placeholder="Filter Search"/>
-                <input type="submit" value="SEARCH" />
-            </center>
-        </form>
-	        <center>
-	        <%    
-	        	String msg = request.getParameter("msg");
-	            if(msg!=null){
-	        %>
-	        <span class="msg"><%= msg%></span>
-	        <%
-				}
-			%>
-			</center>
+	
+    <div>
+    <center><h3>Manage Employee(s)</h3></center>
+    
+    <form action="" method="POST">
+        <center>
+            <input type="text" name="search_query" placeholder="Filter Search"/>
+            <input type="submit" value="SEARCH" />
+        </center>
+    </form>
+    
+    <center>
+      
+      	<%    
+      		String msg = request.getParameter("msg");
+        	if(msg!=null){
+      	%>
+      
+      	<span class="msg"><%= msg%></span>
+      
+      <%
+			}
+		%>
+	</center>
         </div>
         <%
         	ResultSet result;
@@ -137,10 +173,10 @@
             }
             result = p.executeQuery();
         %>
+        
         <div>
             <table id="employees">
-                
-            
+
             <tr>
                 <th>ID</th>
                 <th>Photo</th>
@@ -190,8 +226,8 @@
             	String id = result.getString(1);
             %>
                 <td>
-                <a href="../admin/update_employee.jsp?id=<%= id%>">Update</a>
-                <a href="../admin/delete_employee.jsp?id=<%= id%>">Delete</a>
+                <a href="../admin/update_employee.jsp?id=<%= id%>" id="update"><i class="fa fa-pencil"></i></a>
+                <a href="../admin/delete_employee.jsp?id=<%= id%>" id="delete"><i class="fa fa-trash"></i></a>
                 </td>
             </tr>
             
@@ -199,7 +235,6 @@
             	}
             %>
                 
-            
             </table>
         </div>
     </body>

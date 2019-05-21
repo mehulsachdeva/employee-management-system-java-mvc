@@ -1,29 +1,29 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.*"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Attendance</title>
+<title>Manage Attendance</title>
 <link rel="stylesheet" href="../css/navigation.css" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="../css/manage_employees.css" />
 </head>
 <body>
-		<% 
-			String username = "";
-			if(session.getAttribute("login_username")==null){
-				response.sendRedirect("../login.jsp");
-			}else{
-				username = (String)session.getAttribute("login_username");
-			}
-        %>
-        <nav>
-        <div id="logo">Employee Management System</div>
+	<% 
+		String username = "";
+		if(session.getAttribute("login_username")==null){
+			response.sendRedirect("../login.jsp");
+		}else{
+			username = (String)session.getAttribute("login_username");
+		}
+    %>
+    <nav>
+    	<div id="logo">Employee Management System</div>
 
-	<label for="drop" class="toggle">Menu</label>
-	<input type="checkbox" id="drop" />
+		<label for="drop" class="toggle">Menu</label>
+		<input type="checkbox" id="drop" />
 	    <ul class="menu">
 	        <li><a href="../admin/home_admin.jsp"><i class="fa fa-home">&nbsp;Home</i></a></li>
 	        <li>
@@ -80,13 +80,12 @@
 		        <a><i class="fa fa-info-circle">&nbsp;Welcome <%= username%></i></a>
 		        <input type="checkbox" id="drop-4"/>
 		        <ul>
-		            <li><a href="#settings">Settings</a></li>
 		            <li><a href="../logoutServlet">Logout</a></li>
 		        </ul>
 	        </li>
-	        
 	    </ul>
 	</nav>
+	
 	<div>
 		<center><h3>Manage Attendance</h3></center>
 		<form action="" method="POST">
@@ -96,6 +95,7 @@
 	         </center>
 	    </form>
     </div>
+    
 	<%
 		ResultSet result;
 		String sql_search_query = "";
@@ -120,44 +120,52 @@
 	    }
 	    result = p.executeQuery();
 	%>
+	
 	<div>
-            <table id="employees">
-                
+        <table id="employees">
             
-            <tr>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Contact No.</th>
-                <th>Department</th>
-                <th>Designation</th>
-                <th>Date</th>
-                <th>Attendance</th>
-            </tr>
+        
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Contact No.</th>
+            <th>Department</th>
+            <th>Designation</th>
+            <th>Date</th>
+            <th>Attendance</th>
+        </tr>
             
-            <%
-                    while(result.next()){
-                    	for(int i=1;i<=7;i++){
-            %>
-            <td><%= result.getString(i)%></td>            
-            <%
-            		}
-            %>
-            <%
-       		if((result.getString(8)).equals("Present")){
-	       	%>
-	        <td><span style="color:green;"><%= result.getString(8)%></span></td>
-	        <%
-	       		}else{
-	        %>
-	        <td><span style="color:red;"><%= result.getString(8)%></span></td>
-	        <%
-	       		}
-	        %> 	
-            </tr>
-            <%
-                }
-            %>
+        <%
+              while(result.next()){
+              	for(int i=1;i<=7;i++){
+        %>
+        
+        <td><%= result.getString(i)%></td>            
+        
+        <%
+        		}
+               	if((result.getString(8)).equals("Present")){ 		
+    	%>
+    	
+	    <td><span style="color:green;"><%= result.getString(8)%></span></td>
+	    
+	    <%
+	    	}else{
+	    %>
+	    
+	    <td><span style="color:red;"><%= result.getString(8)%></span></td>
+	    
+	    <%
+	    	}
+	    %>
+	     	
+        </tr>
+        
+        <%
+            }
+        %>
+        
             </table>
         </div>
 </body>

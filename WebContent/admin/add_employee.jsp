@@ -1,28 +1,29 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Welcome</title>
-        <link rel="stylesheet" href="../css/add_employee.css" type="text/css" />
-        <link rel="stylesheet" href="../css/navigation.css" type="text/css" />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    </head>
-    <body>
-        <% 
-	        String username = "";
-			if(session.getAttribute("login_username")==null){
-				response.sendRedirect("../login.jsp");
-			}else{
-				username = (String)session.getAttribute("login_username");
-			}
-        %>
-        <nav>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Add Employee</title>
+<link rel="stylesheet" href="../css/add_employee.css" type="text/css" />
+<link rel="stylesheet" href="../css/navigation.css" type="text/css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+	<% 
+	    String username = "";
+		if(session.getAttribute("login_username")==null){
+			response.sendRedirect("../login.jsp");
+		}else{
+			username = (String)session.getAttribute("login_username");
+		}
+	%>
+    <nav>
         <div id="logo">Employee Management System</div>
 
-	<label for="drop" class="toggle">Menu</label>
-	<input type="checkbox" id="drop" />
+		<label for="drop" class="toggle">Menu</label>
+		<input type="checkbox" id="drop" />
 	    <ul class="menu">
 	        <li><a href="../admin/home_admin.jsp"><i class="fa fa-home">&nbsp;Home</i></a></li>
 	        <li>
@@ -79,34 +80,39 @@
 		        <a><i class="fa fa-info-circle">&nbsp;Welcome <%= username%></i></a>
 		        <input type="checkbox" id="drop-4"/>
 		        <ul>
-		            <li><a href="#settings">Settings</a></li>
 		            <li><a href="../logoutServlet">Logout</a></li>
 		        </ul>
 	        </li>
-	        
-	    </ul>
+		        
+		</ul>
 	</nav>
+	
 	<div>
-        <center>
+		<center>
 	        <center><h3>Add Employee</h3></center>
+	        
 	        <%
 	            String error = request.getParameter("error");
 	        	String msg = request.getParameter("msg");
 	            if(error!=null && msg==null){
 	        %>
+	        
 	        <span class="error"><%= error%></span>
+	        
 	        <%
 	            }
 	            else if(error==null && msg!=null){
 	        %>
+	        
 	        <span class="error"><%= msg%></span>
+	        
 	        <%
 				}
 			%>
+			
 		</center>
-        
-	       	
-            <form action="../add_table_employee" method="POST" enctype="multipart/form-data">
+ 	
+       	<form action="../add_table_employee" method="POST" enctype="multipart/form-data">
             
             <label for="emp_name">Employee Name</label><br>
             <input type="text" name="emp_fname" class="fname" id="fname" placeholder="First Name" onchange="displayUsername()" />
@@ -145,12 +151,13 @@
             
             <label for="emp_designation">Designation</label>
             <select name="emp_designation">
-                <option>Employees, Freelancers, Temporary Employees or Part-Time Employees</option>
+            	<option>Interns, Part-Time Employees or Temporary Employees</option>
+                <option>Employees</option>
                 <option>Developer</option>
                 <option>Senior Developer</option>
                 <option>Junior Developer</option>
                 <option>Manager</option>
-                <option>Middle Manager of people or a function</option>
+                <option>Middle Manager of People or a Function</option>
                 <option>Director</option>
                 <option>Assistant Director</option>
                 <option>Senior Director</option>
@@ -161,7 +168,7 @@
           
             <label for="upload">Upload Employee Passport Size Photo</label><br>
             <figure>
-                <img id="preview_photo" src="images/default_profile.png" width="140" height="150"/>
+                <img id="preview_photo" src="../images/default_profile.png" width="140" height="150"/>
                 <figcaption><input type="file" id="photo" name="passport_photo" /></figcaption>
             </figure>
            <br>
@@ -192,6 +199,6 @@
             	document.getElementById("username").defaultValue = fname + "." + lname;
             }
         </script>
-        </div>
-    </body>
+    </div>
+</body>
 </html>

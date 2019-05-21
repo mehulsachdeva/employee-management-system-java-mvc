@@ -7,12 +7,42 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Manage Tasks</title>
 <link rel="stylesheet" href="../css/navigation.css" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="../css/manage_employees.css" />
+<link rel="stylesheet" href="../css/manage_employees.css" type="text/css" />
+<style>
+#update{
+	display: block;
+	font-size: 15px;
+	color: white;
+	padding: 2px 5px;
+	width: 15px;
+	border: 0;
+	border-radius: 2px;
+	background: #1D8348;
+}
+#update:hover{
+	background: #229954;
+}
+#delete{
+	margin: 2px 0px;
+	display: block;
+	font-size: 15px;
+	color: white;
+	padding: 2px 5px;
+	width: 15px;
+	border: 0;
+	border-radius: 2px;
+	background: #A93226;
+}
+#delete:hover{
+	background: #C0392B;
+}
+</style>
 </head>
 <body>
+
 	<% 
 		String username = "";
 		if(session.getAttribute("login_username")==null){
@@ -21,11 +51,11 @@
 			username = (String)session.getAttribute("login_username");
 		}
     %>
-        <nav>
-        <div id="logo">Employee Management System</div>
-
-	<label for="drop" class="toggle">Menu</label>
-	<input type="checkbox" id="drop" />
+    
+    <nav>
+    	<div id="logo">Employee Management System</div>
+		<label for="drop" class="toggle">Menu</label>
+		<input type="checkbox" id="drop" />
 	    <ul class="menu">
 	        <li><a href="../admin/home_admin.jsp"><i class="fa fa-home">&nbsp;Home</i></a></li>
 	        <li>
@@ -82,13 +112,12 @@
 		        <a><i class="fa fa-info-circle">&nbsp;Welcome <%= username%></i></a>
 		        <input type="checkbox" id="drop-4"/>
 		        <ul>
-		            <li><a href="#settings">Settings</a></li>
 		            <li><a href="../logoutServlet">Logout</a></li>
 		        </ul>
 	        </li>
-	        
 	    </ul>
 	</nav>
+	
 	<div>
 		<center><h3>Manage Task(s)</h3></center>
         <form action="" method="POST">
@@ -98,17 +127,22 @@
             </center>
         </form>
         <center>
+        
         <%
 			//String msg = (String)request.getAttribute("msg");
 	    	String msg = request.getParameter("msg");
 			if(msg!=null){
 		%>
+		
 		<span class="msg"><%= msg%></span>
+		
 		<%
 			}
 		%>
+		
 		</center>
     </div>
+    
     <%
        	ResultSet result;
        	String sql_search_query = "";
@@ -133,43 +167,42 @@
         result = p.executeQuery();
      %>
      <div>
-            <table id="employees">
-                
+	     <table id="employees">
+	
+	     <tr>
+	         <th>Emp ID</th>
+	         <th>Task ID</th>
+	         <th>Task Name</th>
+	         <th>Skills Required</th>
+	         <th>Start Date</th>
+	         <th>Deadline</th>
+	         <th>Status</th>
+	         <th></th>
+	     </tr>
             
-            <tr>
-                <th>Emp ID</th>
-                <th>Task ID</th>
-                <th>Task Name</th>
-                <th>Skills Required</th>
-                <th>Start Date</th>
-                <th>Deadline</th>
-                <th>Status</th>
-                <th></th>
-            </tr>
-            
-            <%
-            	String color = "";
-                    while(result.next()){
-                        for(int i=1;i<=7;i++){
-                        	if(i==7){
-	                        	if((result.getString(7)).equals("Inactive")){
-	                        		color = "grey";
-	                        	}
-	                        	else if((result.getString(7)).equals("Late")){
-	                        		color = "red";
-	                        	}
-	                        	else if((result.getString(7)).equals("Completed")){
-	                        		color = "green";
-	                        	}
-	                        	else if((result.getString(7)).equals("Completed Late")){
-	                        		color = "orange";
-	                        	}
-	                        	else{
-	                        		color = "#007FFF";
-	                        	}
-             %>
+          <%
+          	String color = "";
+                  while(result.next()){
+                      for(int i=1;i<=7;i++){
+                      	if(i==7){
+                       	if((result.getString(7)).equals("Inactive")){
+                       		color = "grey";
+                       	}
+                       	else if((result.getString(7)).equals("Late")){
+                       		color = "red";
+                       	}
+                       	else if((result.getString(7)).equals("Completed")){
+                       		color = "green";
+                       	}
+                       	else if((result.getString(7)).equals("Completed Late")){
+                       		color = "orange";
+                       	}
+                       	else{
+                       		color = "#007FFF";
+                       	}
+           %>
                         	
-             <td style="color:<%= color%>;"><%= result.getString(7)%></td>
+          	<td style="color:<%= color%>;"><%= result.getString(7)%></td>
             
             <%
                	}else{		
@@ -188,16 +221,15 @@
             	String task_id = result.getString(2);
             %>
                 <td>
-                <a href="../admin/update_task.jsp?id=<%= id%>&task_id=<%= task_id%>">Update</a>
-                <a href="../admin/delete_task.jsp?id=<%= id%>&task_id=<%= task_id%>">Delete</a>
+                <a href="../admin/update_task.jsp?id=<%= id%>&task_id=<%= task_id%>" id="update"><i class="fa fa-pencil"></i></a>
+                <a href="../admin/delete_task.jsp?id=<%= id%>&task_id=<%= task_id%>" id="delete"><i class="fa fa-trash"></i></a>
                 </td>
             </tr>
             
             <% 
             	}
             %>
-                
-            
+
             </table>
         </div>
         

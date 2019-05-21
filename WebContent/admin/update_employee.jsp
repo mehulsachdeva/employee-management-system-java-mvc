@@ -1,19 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="java.sql.*" %>
-<%@page import="java.util.Base64"%>
+<%@ page import="java.util.Base64"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Update Employee</title>
 <link rel="stylesheet" type="text/css" href="../css/add_employee.css" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body>
+
 	<%
 		String[] genders = {"Male","Female","Others"};
-		String[] designations = {"Employees, Freelancers, Temporary Employees or Part-Time Employees","Developer","Senior Developer","Junior Developer","Manager","Middle Manager of people or a function","Director","Assistant Director","Senior Director"};
+		String[] designations = {"Interns, Part-Time Employees or Temporary Employees","Employees","Developer","Senior Developer","Junior Developer","Manager","Middle Manager of People or a Function","Director","Assistant Director","Senior Director"};
 		String id = request.getParameter("id");
 		Class.forName("com.mysql.jdbc.Driver");
 		String url = "jdbc:mysql://localhost/test?user=mehul&password=mehul";	
@@ -23,6 +23,7 @@
 	   	ResultSet result = p.executeQuery();
 	   	if(result.next()){
 	%>
+	
    	<form action="../update_employee" method="POST" enctype="multipart/form-data">    
    	     
    	    <label for="username">Employee ID</label>
@@ -40,20 +41,26 @@
         
         <label for="gender">Gender</label>
         <select name="gender">
+        
         <%
         	for(String element: genders){
         		if(element.equals(result.getString(6))){
         %>
+        
         <option selected="selected"><%= element%></option>
+		
 		<%
         		}
         		else{
        	%>
+       	
        	<option><%= element%></option>
+       	
        	<%
         		}
         	}
         %>
+        
         </select>
         
         <label for="emp_dob">Date Of Birth</label>
@@ -76,20 +83,26 @@
         
         <label for="emp_designation">Designation</label>
         <select name="emp_designation">
+        
         <%
         	for(String element: designations){
         		if(element.equals(result.getString(13))){
         %>
+        
         <option selected="selected"><%= element%></option>
+		
 		<%
         		}
         		else{
        	%>
+       	
        	<option><%= element%></option>
+       	
        	<%
         		}
         	}
         %>
+        
         </select>
         
         <label for="emp_salary">Salary</label>
@@ -109,9 +122,11 @@
 
     	<input type="submit" value="UPDATE" />
     </form>
+    
 	<%
 	   	}
 	%>
+	
 	<script type="text/javascript">
 		
        function readURL(input) {
@@ -125,9 +140,11 @@
                reader.readAsDataURL(input.files[0]);
              }
        }
+       
        $("#photo").change(function() {
            readURL(this);
        });
-     </script>
+       
+    </script>
 </body>
 </html>

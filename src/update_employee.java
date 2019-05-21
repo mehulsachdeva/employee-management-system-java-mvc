@@ -72,8 +72,19 @@ public class update_employee extends HttpServlet {
                 p.setString(10, designation);
                 p.setString(11, salary);
                 p.setString(12, emp_id);
-            }  
+            }
             p.executeUpdate();
+            
+            PreparedStatement ps = con.prepareStatement("update history set firstname=?, lastname=?, email=?, doj=?, department=?, designation=? where emp_id=?");
+            ps.setString(1, emp_fname);
+            ps.setString(2, emp_lname);
+            ps.setString(3, emp_email);
+            ps.setString(4, emp_doj);
+            ps.setString(5, department);
+            ps.setString(6, designation);
+            ps.setString(7, emp_id);
+            ps.executeUpdate();
+            
             String msg = "Employee Info Updated Successfully";
             response.sendRedirect("admin/manage_employees.jsp?msg=" + msg);
 		}catch(Exception e) {}

@@ -10,6 +10,35 @@
 <link rel="stylesheet" href="../css/manage_leaves.css" type="text/css" />
 <link rel="stylesheet" href="../css/navigation.css" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+#update{
+	display: block;
+	font-size: 15px;
+	color: white;
+	padding: 2px 5px;
+	width: 15px;
+	border: 0;
+	border-radius: 2px;
+	background: #1D8348;
+}
+#update:hover{
+	background: #229954;
+}
+#delete{
+	margin: 2px 0px;
+	display: block;
+	font-size: 15px;
+	color: white;
+	padding: 2px 5px;
+	width: 15px;
+	border: 0;
+	border-radius: 2px;
+	background: #A93226;
+}
+#delete:hover{
+	background: #C0392B;
+}
+</style>
 </head>
 <body>
 	<% 
@@ -21,10 +50,10 @@
 		}
     %>
     <nav>
-   <div id="logo">Employee Management System</div>
+   		<div id="logo">Employee Management System</div>
 
-	<label for="drop" class="toggle">Menu</label>
-	<input type="checkbox" id="drop" />
+		<label for="drop" class="toggle">Menu</label>
+		<input type="checkbox" id="drop" />
 	    <ul class="menu">
 	        <li><a href="../admin/home_admin.jsp"><i class="fa fa-home">&nbsp;Home</i></a></li>
 	        <li>
@@ -81,13 +110,12 @@
 		        <a><i class="fa fa-info-circle">&nbsp;Welcome <%= username%></i></a>
 		        <input type="checkbox" id="drop-4"/>
 		        <ul>
-		            <li><a href="#settings">Settings</a></li>
 		            <li><a href="../logoutServlet">Logout</a></li>
 		        </ul>
 	        </li>
-	        
 	    </ul>
 	</nav>
+	
     <div>
     	<center><h3>Manage Leave(s)</h3></center>
 	    <form action="" method="POST">
@@ -97,17 +125,22 @@
 	        </center>
 	    </form>
     </div>
-	    <center>
-	    <%
-			//String msg = (String)request.getAttribute("msg");
-	    	String msg = request.getParameter("msg");
-			if(msg!=null){
-		%>
-		<span><%= msg%></span>
-		<%
-			}
-		%>
-		</center>
+    
+    <center>
+    
+    <%
+    	String msg = request.getParameter("msg");
+		if(msg!=null){
+	%>
+	
+	<span><%= msg%></span>
+	
+	<%
+		}
+	%>
+	
+	</center>
+	
     <%
        	ResultSet result = null;
        	String sql_search_query = "";
@@ -136,7 +169,7 @@
            }
            result = p.executeQuery();
         %>
-    <div>
+    	<div>
             <table id="employees">        
             <tr>
                 <th>Emp ID</th>
@@ -154,12 +187,15 @@
                 <th></th>
             </tr>
             <tr>
+            
             <%
             	String color = "";
                     while(result.next()){
             %>
+            
             <td><%= result.getString(1)%></td>
             <td><%= result.getString(2)%></td>
+            
             <%      	
                         for(int i=3;i<=12;i++){
                         	if(i==11){
@@ -191,8 +227,8 @@
             	String leave_id = result.getString(2);
             %>
                 <td>
-                <a href="../admin/update_leave.jsp?id=<%= emp_id%>&leave=<%= leave_id%>">Update</a>
-                <a href="../admin/delete_leave.jsp?id=<%= emp_id%>&leave=<%= leave_id%>">Delete</a>
+                <a href="../admin/update_leave.jsp?id=<%= emp_id%>&leave=<%= leave_id%>" id="update"><i class="fa fa-pencil"></i></a>
+                <a href="../admin/delete_leave.jsp?id=<%= emp_id%>&leave=<%= leave_id%>" id="delete"><i class="fa fa-trash"></i></a>
                 </td>
             </tr>
             

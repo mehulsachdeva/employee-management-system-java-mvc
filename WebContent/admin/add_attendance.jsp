@@ -1,33 +1,34 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.*"%>
-<%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.*"%>
 <%@page import="java.time.*"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Attendance</title>
+<title>Add Attendance</title>
 <link rel="stylesheet" href="../css/navigation.css" type="text/css" />
-<link rel="stylesheet" type="text/css" href="../css/add_attendance.css" />
+<link rel="stylesheet" href="../css/add_attendance.css" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-		<%
-			String username = "";
-			if(session.getAttribute("login_username")==null){
-				response.sendRedirect("../login.jsp");
-			}else{
-				username = (String)session.getAttribute("login_username");
-			}
-            
-        %>
-        <nav>
-   	<div id="logo">Employee Management System</div>
+	<%
+		// check for session
+		String username = "";
+		if(session.getAttribute("login_username")==null){
+			response.sendRedirect("../login.jsp");
+		}else{
+			username = (String)session.getAttribute("login_username");
+		}        
+	%>
+	
+	<!-- Navigation Bar -->
+    <nav>
+   		<div id="logo">Employee Management System</div>
 
-	<label for="drop" class="toggle">Menu</label>
-	<input type="checkbox" id="drop" />
+		<label for="drop" class="toggle">Menu</label>
+		<input type="checkbox" id="drop" />
 	    <ul class="menu">
 	        <li><a href="../admin/home_admin.jsp"><i class="fa fa-home">&nbsp;Home</i></a></li>
 	        <li>
@@ -84,19 +85,19 @@
 		        <a><i class="fa fa-info-circle">&nbsp;Welcome <%= username%></i></a>
 		        <input type="checkbox" id="drop-4"/>
 		        <ul>
-		            <li><a href="#settings">Settings</a></li>
 		            <li><a href="../logoutServlet">Logout</a></li>
 		        </ul>
-	        </li>
-	        
+	        </li> 
 	    </ul>
 	</nav>
+	
 	<%
-		
+		// connection with mysql
 		Class.forName("com.mysql.jdbc.Driver");
 		String url = "jdbc:mysql://localhost/test?user=mehul&password=mehul";	
 	    Connection con = DriverManager.getConnection(url);
 		
+	    // get today's date
 	    LocalDate now = LocalDate.now();
 		String date = now.getDayOfMonth() + "/" + now.getMonthValue() + "/" + now.getYear();
 		
@@ -105,58 +106,66 @@
 		ResultSet res = p.executeQuery();
 		if(res.next()){
 	%>	
+	
 	<center><h3>Attendance Submitted For Today</h3></center>
+	
 	<%
 		}else{
 	%>
+	
 	<center><h3>Attendance For <%= date%></h3></center>
+	
 	<div>
-	<form action="../store_attendance" method="POST">
-		<center>
-			<label class="label_attendance_upload">
-				<i class="fa fa-cloud-upload">&nbsp;&nbsp;</i>Upload CSV File For Attendance&nbsp;
-			</label>
-			<input type="file" name="attendance_csv" id="attendance_csv" /><br>
-		</center>
-		
-		Mark All Absent 
-		<input type="checkbox" id="absent" onchange="markAllAbsent()" />
-		<center><b><span id="display-message"></span></b></center>
-		<table id="employees">
-			<tr>
-				<th>Employee ID</th>
-				<th>Firstname</th>
-				<th>Lastname</th>
-				<th>Attendance</th>
-			</tr>
-		<%
-			PreparedStatement ps = con.prepareStatement("select emp_id, firstname, lastname from employee");
-			ResultSet result = ps.executeQuery();
-			while(result.next()){
-		%>
-			<tr>
-				<td><%= result.getString(1)%></th>
-				<td><%= result.getString(2)%></td>
-				<td><%= result.getString(3)%></td>
-				<td>
-					<select name="attendance" onchange="this.className=this.options[this.selectedIndex].className" class="Present">
-						<option class="Present">Present</option>
-						<option class="Absent">Absent</option>
-					</select>
-					<input type="hidden" value="<%= date%>" name="date" />
-					<input type="hidden" value="<%= result.getString(1)%>" name="emp_id" />
-				</td>
-			</tr>
-		<%
-				}
-		%>
-		</table>
-		<center><input type="submit" value="SUBMIT" /></center>
-	</form>
+		<form action="../store_attendance" method="POST">
+			<center>
+				<label class="label_attendance_upload">
+					<i class="fa fa-cloud-upload">&nbsp;&nbsp;</i>Upload CSV File For Attendance&nbsp;
+				</label>
+				<input type="file" name="attendance_csv" id="attendance_csv" /><br>
+			</center>
+			
+			Mark All Absent 
+			<input type="checkbox" id="absent" onchange="markAllAbsent()" />
+			<center><b><span id="display-message"></span></b></center>
+			<table id="employees">
+				<tr>
+					<th>Employee ID</th>
+					<th>Firstname</th>
+					<th>Lastname</th>
+					<th>Attendance</th>
+				</tr>
+				
+				<%
+					PreparedStatement ps = con.prepareStatement("select emp_id, firstname, lastname from employee");
+					ResultSet result = ps.executeQuery();
+					while(result.next()){
+				%>
+				
+				<tr>
+					<td><%= result.getString(1)%></th>
+					<td><%= result.getString(2)%></td>
+					<td><%= result.getString(3)%></td>
+					<td>
+						<select name="attendance" onchange="this.className=this.options[this.selectedIndex].className" class="Present">
+							<option class="Present">Present</option>
+							<option class="Absent">Absent</option>
+						</select>
+						<input type="hidden" value="<%= date%>" name="date" />
+						<input type="hidden" value="<%= result.getString(1)%>" name="emp_id" />
+					</td>
+				</tr>
+				<%
+						}
+				%>
+			</table>
+			<center><input type="submit" value="SUBMIT" /></center>
+		</form>
 	</div>
+	
 	<%
 		}
 	%>
+	
 	<script type="text/javascript">
 	
 	function markAllAbsent(){
