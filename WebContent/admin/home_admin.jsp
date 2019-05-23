@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Home| Admin</title>
+<title>Home | Admin</title>
 <link rel="stylesheet" href="../css/navigation.css" type="text/css" />
 <link rel="stylesheet" href="../css/add_employee.css" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -19,6 +19,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body>
+
 	<% 
 		String username = "";
 		if(session.getAttribute("login_username")==null){
@@ -27,6 +28,7 @@
 			username = (String)session.getAttribute("login_username");
 		}
     %>
+    
     <nav>
     	<div id="logo">Employee Management System</div>
 

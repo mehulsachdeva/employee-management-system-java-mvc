@@ -7,9 +7,30 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="register.css" />
         <script src="validation.js"></script>
+        <style>
+        body{
+        	overflow: hidden;
+        }
+		#title{
+			color: white;
+			padding: 10px 10px;
+			font-size: 45px;
+			position: relative;
+			top:35%;
+			left: 5%;
+		}
+		.sub-container{
+			position: fixed;
+    		right: 6%;
+			top: 10%;
+		}
+        </style>
     </head>
     <body>
     <div class="container">
+    	<div id="title">
+        	<b>Employee Management System</b>
+        </div>
         <div class="sub-container">
             <form name="myform" action="registerValidate" method="POST" onsubmit="return validate()">
                 <center><h3>Registration Form</h3></center>

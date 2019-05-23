@@ -6,6 +6,19 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="login.css" />
+        <style>
+        body{
+        	overflow: hidden;
+        }
+		#title{
+			color: white;
+			padding: 10px 10px;
+			font-size: 45px;
+			position: relative;
+			top:35%;
+			left: 5%;
+		}
+        </style>
     </head>
     
     <script type="text/javascript">
@@ -17,6 +30,9 @@
     
     <body>
         <div class="container">
+        	<div id="title">
+            	<b>Employee Management System</b>
+            </div>
             <div class="sub-container">
                 <form action="validate" method="POST">
                     <center><h3>Login Form</h3></center>

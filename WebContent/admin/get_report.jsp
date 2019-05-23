@@ -121,9 +121,9 @@
 			<th>Tasks Inactive</th>
 			<th>Tasks Active</th>
 			<th>Tasks Behind Schedule</th>
-			<th>Tasks Completed</th>
+			<th>Tasks Completed On Time</th>
 			<th>Tasks Completed Late</th>
-			<th>Points (Out Of 12)</th>
+			<th>Points</th>
 			<th>Performance</th>				
 		</tr> 	
 		<%
@@ -163,20 +163,20 @@
 		   			tasks_completed = re.getString(5);
 		   			tasks_completed_late = re.getString(6);
 		   		}
-		   		int late_completion_ratio = 0;
-		   		if(Integer.parseInt(tasks_completed)!=0){
-		   			late_completion_ratio = Integer.parseInt(tasks_completed_late)/Integer.parseInt(tasks_completed);
-		   		}
-		   		int points = 0;
+		   		double late_completion_percent = 0;
+		   		double total_tasks_completed = Integer.parseInt(tasks_completed) + Integer.parseInt(tasks_completed_late);
+		   		late_completion_percent = (Integer.parseInt(tasks_completed_late)/total_tasks_completed)*100;
 		   		
+		   		int points = 0;
 		   		if(attendance>=85)points+=4;
 		   		else if(attendance<85 && attendance>=75)points+=3;
 		   		else if(attendance<75 && attendance>=50)points+=2;
 		   		else points+=1;
 		   		
-		   		if(late_completion_ratio<=10)points+=5;
-		   		else if(late_completion_ratio>10 && late_completion_ratio<=20)points+=3;
-		   		else if(late_completion_ratio>20 && late_completion_ratio<=30)points+=2;
+	   			if(late_completion_percent<=10)points+=5;
+		   		else if(late_completion_percent>10 && late_completion_percent<=20)points+=4;
+		   		else if(late_completion_percent>20 && late_completion_percent<=30)points+=3;
+		   		else if(late_completion_percent>30 && late_completion_percent<=50)points+=2;
 		   		else points += 1;
 		   		
 		   		int late = Integer.parseInt(tasks_late);
@@ -191,10 +191,10 @@
 		   		if(points==11 || points==12){
 		   			performance = "Outstanding";
 		   			color = "green";
-		   		}else if(points>=8 && points<=10){
+		   		}else if(points>=7 && points<=10){
 		   			performance = "Satisfactory";
 		   			color = "blue";
-		   		}else if(points>=5 && points<=7){
+		   		}else if(points>=5 && points<=6){
 		   			performance = "Improvement Needed";
 		   			color = "orange";
 		   		}else{

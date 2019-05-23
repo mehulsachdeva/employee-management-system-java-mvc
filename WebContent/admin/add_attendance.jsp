@@ -198,12 +198,12 @@
 	        		var arr = array[i+1].split(",");
 	        		var str = arr[1].replace(/["]+/g, '').trim();
 	        		var val = str.charAt(0).toUpperCase() + str.slice(1);
-	        		console.log(val);
+	        		//console.log(val);
 	        		elements[i].value = val;
 	        		elements[i].className = val;
 	        	}	
 	      }
-	      console.log(elements);
+	      //console.log(elements);
 	      r.readAsText(f);
 	      document.getElementById("display-message").innerHTML = "Attendance Automatically Changed";
 		}else{ 
