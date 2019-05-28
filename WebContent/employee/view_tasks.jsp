@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@page import="java.sql.ResultSet"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page import="com.aspire.bean.EmployeeBean"%>
+<%@page import="com.aspire.dao.ViewTasksDao"%>
 <%@page import="java.sql.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -12,15 +12,15 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-		<% 
-			String username = "";
-			if(session.getAttribute("login_username")==null){
-				response.sendRedirect("../login.jsp");
-			}else{
-				username = (String)session.getAttribute("login_username");
-			}
-        %>
-     <nav>
+	<% 
+		EmployeeBean employeeBean = (EmployeeBean) session.getAttribute("employeeBean");
+		String username = null;
+		if(employeeBean == null){
+			response.sendRedirect("../login.jsp");
+		}else{
+			username = employeeBean.getUsername();
+    %>
+    <nav>
    	<div id="logo">Employee Management System</div>
 
 	<label for="drop" class="toggle">Menu</label>
@@ -82,28 +82,22 @@
 	    </ul>
 	</nav>
 	<div>
+	
 	<%   
-		String id = "";
-       	String query = request.getParameter("search_query");
-        Class.forName("com.mysql.jdbc.Driver");
-		String url = "jdbc:mysql://localhost/test?user=mehul&password=mehul";	
-        Connection con = DriverManager.getConnection(url);
-        PreparedStatement ps = con.prepareStatement("select emp_id from employee where username=?");
-        ps.setString(1, username);
-        ResultSet res = ps.executeQuery();
-        if(res.next()){
-        	id = res.getString(1);
-        } 
-        String sql_search_query = "select task_name, skills_required, start_date, deadline, status from employee_task_tracker where emp_id=? order by status desc";
-        PreparedStatement pi = con.prepareStatement(sql_search_query);
-        pi.setString(1, id);
-        ResultSet result = pi.executeQuery();
+        String emp_id = employeeBean.getEmp_id();
+        ResultSet resultSet = null;
+		ViewTasksDao viewTasksDao = new ViewTasksDao();
+   		try{
+   			resultSet = viewTasksDao.viewTasks(emp_id);
+   		}catch(Exception e){}
+   		
+   		if(resultSet != null){
      %>
+     
      <center><h3>Tasks Assigned</h3></center>
      <div>
             <table id="employees">
-                
-            
+
             <tr>
                 <th>Task Name</th>
                 <th>Skills Required</th>
@@ -114,49 +108,51 @@
             
             <%
             	String color = "";
-                    while(result.next()){
-                        for(int i=1;i<=5;i++){
-                        	if(i==5){
-	                        	if((result.getString(5)).equals("Inactive")){
-	                        		color = "grey";
-	                        	}
-	                        	else if((result.getString(5)).equals("Late")){
-	                        		color = "red";
-	                        	}
-	                        	else if((result.getString(5)).equals("Completed")){
-	                        		color = "green";
-	                        	}
-	                        	else if((result.getString(5)).equals("Completed Late")){
-	                        		color = "orange";
-	                        	}
-	                        	else{
-	                        		color = "#007FFF";
-	                        	}
+                while(resultSet.next()){
+                    for(int i=1;i<=5;i++){
+                    	if(i==5){
+	                     	if((resultSet.getString(5)).equals("Inactive")){
+	                     		color = "grey";
+	                     	}
+	                     	else if((resultSet.getString(5)).equals("Late")){
+	                     		color = "red";
+	                     	}
+	                     	else if((resultSet.getString(5)).equals("Completed")){
+	                     		color = "green";
+	                     	}
+	                     	else if((resultSet.getString(5)).equals("Completed Late")){
+	                     		color = "orange";
+	                     	}
+	                     	else{
+	                     		color = "#007FFF";
+	                     	}
              %>
                         	
-             <td style="color:<%= color%>;"><%= result.getString(5)%></td>
+             <td style="color:<%= color%>;"><%= resultSet.getString(5)%></td>
             
             <%
                	}else{		
             %>
                 
-             <td><%= result.getString(i)%></td>       
+             <td><%= resultSet.getString(i)%></td>       
             
             <%
                		}
                 }
-               
             %>
 
             </tr>
             
             <% 
-            	}
+            	} 
             %>
-                
             
             </table>
         </div>
 	</div>
+	<%
+   			}
+   		}
+	%>
 </body>
 </html>

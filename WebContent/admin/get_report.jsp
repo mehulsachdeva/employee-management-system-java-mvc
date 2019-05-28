@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="java.sql.*" %>
+<%@ page import="com.aspire.bean.AdminBean" %>
+<%@ page import="com.aspire.dao.ViewReportDao" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -29,14 +31,16 @@
 </style>
 
 <body>
+
 	<% 
-		String username = "";
-		if(session.getAttribute("login_username")==null){
+		AdminBean adminBean = (AdminBean) session.getAttribute("adminBean");
+		String username = null;
+		if(adminBean == null){
 			response.sendRedirect("../login.jsp");
 		}else{
-			username = (String)session.getAttribute("login_username");
-		}
+			username = adminBean.getUsername();
     %>
+    
     <nav>
     	<div id="logo">Employee Management System</div>
 
@@ -127,16 +131,18 @@
 			<th>Performance</th>				
 		</tr> 	
 		<%
-			String emp_id="",firstname="",lastname="",department="",designation="";
-			String tasks_assigned="", tasks_inactive="", tasks_active="", tasks_completed="", tasks_completed_late="";
-			String tasks_late = "";
 			
-			Class.forName("com.mysql.jdbc.Driver");
-			String url = "jdbc:mysql://localhost/test?user=mehul&password=mehul";	
-		    Connection con = DriverManager.getConnection(url);
-		    
-		    PreparedStatement p = con.prepareStatement("select emp_id, firstname, lastname, department, designation from employee");
-		    ResultSet result = p.executeQuery();
+			String emp_id = null, firstname = null, lastname = null, department = null, designation = null;
+			String tasks_assigned = null, tasks_inactive = null, tasks_active = null, tasks_completed = null, tasks_completed_late = null;
+			String tasks_late = null;
+
+			ViewReportDao viewReportDao = new ViewReportDao();
+			ResultSet result = null, res = null, re = null;
+			
+			try{
+				result = viewReportDao.displayReport();	
+			}catch(Exception e){}
+			
 		   	while(result.next()){
 		   		int attendance = 0;
 		   		emp_id = result.getString(1);
@@ -144,17 +150,15 @@
 		   		lastname = result.getString(3);
 		   		department = result.getString(4);
 		   		designation = result.getString(5);
-		   		PreparedStatement ps = con.prepareStatement("select count(*), COUNT(IF(attendance='present',1,NULL)) from employee_attendance where emp_id=?");
-		   		ps.setString(1, emp_id);
-		   		ResultSet res = ps.executeQuery();
+				
+		   		res = viewReportDao.processAttendance(emp_id);
 		   		if(res.next()){
 		   			double present = Integer.valueOf(res.getString(2));
 		   			double days = Integer.valueOf(res.getString(1));
 		   			attendance = (int)((present/days)*100);
 		   		}
-		   		PreparedStatement pa = con.prepareStatement("select COUNT(*), COUNT(IF(status='Inactive',1,NULL)), COUNT(IF(status='Late',1,NULL)), COUNT(IF(status='Active',1,NULL)), COUNT(IF(status='Completed',1,NULL)), COUNT(IF(status='Completed Late',1,NULL)) from employee_task_tracker where emp_id=?");
-		   		pa.setString(1, emp_id);
-		   		ResultSet re = pa.executeQuery();
+		   		
+		   		re = viewReportDao.processTasks(emp_id);
 		   		if(re.next()){
 		   			tasks_assigned = re.getString(1);
 		   			tasks_inactive = re.getString(2);
@@ -163,6 +167,7 @@
 		   			tasks_completed = re.getString(5);
 		   			tasks_completed_late = re.getString(6);
 		   		}
+		   		
 		   		double late_completion_percent = 0;
 		   		double total_tasks_completed = Integer.parseInt(tasks_completed) + Integer.parseInt(tasks_completed_late);
 		   		late_completion_percent = (Integer.parseInt(tasks_completed_late)/total_tasks_completed)*100;
@@ -226,5 +231,8 @@
 		
 		</table>
 	</div>
+	<%
+		}
+	%>
 </body>
 </html>

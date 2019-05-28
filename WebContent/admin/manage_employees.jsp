@@ -1,7 +1,8 @@
 <%@page import="java.util.Base64"%>
 <%@page import="java.io.OutputStream"%>
 <%@page import="java.sql.Blob"%>
-<%@page import="java.sql.ResultSet"%>
+<%@page import="com.aspire.bean.AdminBean"%>
+<%@page import="com.aspire.dao.SearchBoxDao"%>
 <%@page import="java.sql.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -47,13 +48,13 @@
 </head>
 <body>
 	<% 
-	    String username = "";
-		if(session.getAttribute("login_username")==null){
+		AdminBean adminBean = (AdminBean) session.getAttribute("adminBean");
+		String username = null;
+		if(adminBean == null){
 			response.sendRedirect("../login.jsp");
 		}else{
-			username = (String)session.getAttribute("login_username");
-		}
-	%>
+			username = adminBean.getUsername();
+    %>
     <nav>
     	<div id="logo">Employee Management System</div>
 
@@ -121,7 +122,6 @@
 	    </ul>
 	</nav>
 	
-    <div>
     <center><h3>Manage Employee(s)</h3></center>
     
     <form action="" method="POST">
@@ -131,47 +131,16 @@
         </center>
     </form>
     
-    <center>
-      
-      	<%    
-      		String msg = request.getParameter("msg");
-        	if(msg!=null){
-      	%>
-      
-      	<span class="msg"><%= msg%></span>
-      
-      <%
-			}
-		%>
-	</center>
-        </div>
+    <center><span class="msg"><%= (request.getParameter("msg") == null)? "": request.getParameter("msg")%></span></center>
         <%
-        	ResultSet result;
-        	String sql_search_query = "";
-        	PreparedStatement p;
-        	String query = request.getParameter("search_query");
-	        Class.forName("com.mysql.jdbc.Driver");
-			String url = "jdbc:mysql://localhost/test?user=mehul&password=mehul";	
-	        Connection con = DriverManager.getConnection(url);
-	        if(query==null){
-                sql_search_query = "select * from employee";
-                p = con.prepareStatement(sql_search_query);
-            }else{
-                sql_search_query = "select * from employee where emp_id LIKE ? or username LIKE ? or firstname LIKE ? or lastname LIKE ? or gender LIKE ? or department LIKE ? or designation LIKE ? or email LIKE ? or contact LIKE ? or dob LIKE ? or doj LIKE ?";
-                p = con.prepareStatement(sql_search_query);
-                p.setString(1, "%" + query + "%");
-                p.setString(2, "%" + query + "%");
-                p.setString(3, "%" + query + "%");
-                p.setString(4, "%" + query + "%");
-                p.setString(5, "%" + query + "%");
-                p.setString(6, "%" + query + "%");
-                p.setString(7, "%" + query + "%");
-                p.setString(8, "%" + query + "%");
-                p.setString(9, "%" + query + "%");
-                p.setString(10, "%" + query + "%");
-                p.setString(11, "%" + query + "%");
-            }
-            result = p.executeQuery();
+        	String search_query = request.getParameter("search_query");
+       		SearchBoxDao searchBoxDao = new SearchBoxDao();
+		    ResultSet result = null;
+		    try{
+		    	result = searchBoxDao.displayEmployees(search_query);
+		    }catch(Exception e){}
+		    
+		    if(result != null){
         %>
         
         <div>
@@ -237,5 +206,9 @@
                 
             </table>
         </div>
+        <%
+				}
+			}
+        %>
     </body>
 </html>

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="java.sql.*" %>
+<%@ page import="com.aspire.dao.ManageDao" %>
+<%@ page import="com.aspire.util.EncryptPassword"%>
 <%@ page import="java.util.Base64"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -15,16 +17,20 @@
 		String[] genders = {"Male","Female","Others"};
 		String[] designations = {"Interns, Part-Time Employees or Temporary Employees","Employees","Developer","Senior Developer","Junior Developer","Manager","Middle Manager of People or a Function","Director","Assistant Director","Senior Director"};
 		String id = request.getParameter("id");
-		Class.forName("com.mysql.jdbc.Driver");
-		String url = "jdbc:mysql://localhost/test?user=mehul&password=mehul";	
-	    Connection con = DriverManager.getConnection(url);
-	    PreparedStatement p = con.prepareStatement("select * from employee where emp_id=?");
-	    p.setString(1, id);
-	   	ResultSet result = p.executeQuery();
-	   	if(result.next()){
+		
+		ResultSet result = null;
+		ManageDao manageDao = new ManageDao();
+		try{
+			result = manageDao.getCurrentEmployee(id);
+		}catch(Exception e){}
+		if(result != null){
+	   		if(result.next()){
+	   			final String secretKey = "secretkey";
+	   			EncryptPassword encryptPassword = new EncryptPassword();
+	   	        String password = encryptPassword.decrypt(result.getString(5), secretKey);
 	%>
 	
-   	<form action="../update_employee" method="POST" enctype="multipart/form-data">    
+   	<form action="../UpdateEmployeeServlet" method="POST" enctype="multipart/form-data">    
    	     
    	    <label for="username">Employee ID</label>
         <input type="text" class="fields" value="<%= result.getString(1)%>" name="emp_id" placeholder="Employee ID" readonly="readonly" />
@@ -37,7 +43,7 @@
         <input type="text" class="fields" value="<%= result.getString(4)%>" name="username" placeholder="Username" readonly="readonly" />
         
         <label for="emp_id">Password</label>
-        <input type="text" class="fields" value="<%= result.getString(5)%>" name="password" placeholder="Password" />
+        <input type="text" class="fields" value="<%= password%>" name="password" placeholder="Password" />
         
         <label for="gender">Gender</label>
         <select name="gender">
@@ -117,14 +123,15 @@
         <label for="upload">Upload Employee Passport Size Photo</label><br>
         <figure>
             <img id="preview_photo" src="data:image/gif;base64,<%= imgDataBase64 %>" width="140" height="150"/>
-            <figcaption><input type="file" id="photo" name="passport_photo" /></figcaption>
+            <br><figcaption><input type="file" id="photo" name="passport_photo" /></figcaption>
         </figure>
 
     	<input type="submit" value="UPDATE" />
     </form>
     
 	<%
-	   	}
+	   		}
+		}
 	%>
 	
 	<script type="text/javascript">

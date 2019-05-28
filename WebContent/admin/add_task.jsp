@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="java.time.*"%>
-
+<%@page import="com.aspire.bean.AdminBean" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,13 +12,13 @@
 </head>
 <body>
 	<% 
-		String username = "";
-		if(session.getAttribute("login_username")==null){
+		AdminBean adminBean = (AdminBean) session.getAttribute("adminBean");
+		String username = null;
+		if(adminBean == null){
 			response.sendRedirect("../login.jsp");
 		}else{
-			username = (String)session.getAttribute("login_username");
-		}
-     %>
+			username = adminBean.getUsername();
+    %>
      <nav>
      	<div id="logo">Employee Management System</div>
 
@@ -89,19 +89,9 @@
 	
 	<div>	
 			<center><h3>Add Tasks</h3></center>
-			
-     		<%
-     			String msg = request.getParameter("msg");
-     			if(msg!=null){
-     		%>
+     		<center><span class="msg"><%= (request.getParameter("msg")==null)? "": request.getParameter("msg")%></span></center>
      		
-     		<center><span class="msg"><%= msg%></span></center>
-     		
-     		<%
-     			}
-     		%>
-     		
-            <form action="../add_table_task" method="POST">
+            <form action="../TaskServlet" method="POST">
                                     
             <label for="emp_id">Employee ID</label>
             <input type="text" class="fields" name="emp_id" placeholder="Employee ID" /><br>
@@ -124,5 +114,8 @@
             </center>  
         </form>
      </div>
+     <%
+		}
+     %>
 </body>
 </html>

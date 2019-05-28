@@ -60,7 +60,7 @@ input[type=submit]:hover{
 a{
     text-decoration: none;
 }
-.error {
+.msg {
     color: red;
     font-size: 15px;
 }

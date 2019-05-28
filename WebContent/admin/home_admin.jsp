@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-
+<%@ page import = "com.aspire.bean.AdminBean" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,12 +21,12 @@
 <body>
 
 	<% 
-		String username = "";
-		if(session.getAttribute("login_username")==null){
+		AdminBean adminBean = (AdminBean) session.getAttribute("adminBean");
+		String username = null;
+		if(adminBean == null){
 			response.sendRedirect("../login.jsp");
 		}else{
-			username = (String)session.getAttribute("login_username");
-		}
+			username = adminBean.getUsername();
     %>
     
     <nav>
@@ -98,7 +98,7 @@
 	
 	<section class="banner full">
 		<article>
-			<img src="../images/slide02.jpg" alt="" />
+			<img src="../images/background_slide02.jpg" alt="" />
 			<div class="inner">
 				<header>
 					<h2>Positive Attitude</h2><span>Creating A Good Environment</span>
@@ -106,7 +106,7 @@
 			</div>
 		</article>
 		<article>
-			<img src="../images/slide01.jpg" alt="" />
+			<img src="../images/background_slide01.jpg" alt="" />
 			<div class="inner">
 				<header>
 					<h2>Self Motivated</h2><span>Working Effectively With Little Direction</span>
@@ -114,7 +114,7 @@
 			</div>
 		</article>
 		<article>
-			<img src="../images/slide03.jpg"  alt="" />
+			<img src="../images/background_slide03.jpg"  alt="" />
 			<div class="inner">
 				<header>
 					<h2>Team Oriented</h2><span>Making The Most Out Of Collaboration</span>
@@ -122,7 +122,7 @@
 			</div>
 		</article>
 		<article>
-			<img src="../images/slide04.jpg"  alt="" />
+			<img src="../images/background_slide04.jpg"  alt="" />
 			<div class="inner">
 				<header>
 					<h2>Strong Work Ethic</h2><span>Setting And Achieving Goals </span>
@@ -133,7 +133,7 @@
 	
 	<section class="banner full">
 		<article>
-			<img src="../images/slide04.jpg"  alt="" />
+			<img src="../images/background_slide04.jpg"  alt="" />
 			<div class="inner">
 				<header>
 				<div>
@@ -168,5 +168,8 @@
 			&copy; Untitled. All rights reserved.
 		</div>
 	</footer>
+	<%
+		}
+	%>
 </body>
 </html>

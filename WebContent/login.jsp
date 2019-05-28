@@ -5,7 +5,7 @@
         <title>User Authentication</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="login.css" />
+        <link rel="stylesheet" type="text/css" href="css/login.css" />
         <style>
         body{
         	overflow: hidden;
@@ -34,30 +34,10 @@
             	<b>Employee Management System</b>
             </div>
             <div class="sub-container">
-                <form action="validate" method="POST">
+                <form action="LoginServlet" method="POST">
                     <center><h3>Login Form</h3></center>
-                    <center><span>
-                    <%
-                        String err = request.getParameter("error");
-                        String register_msg = request.getParameter("register");
-                        String logout_msg = request.getParameter("logout");
-                        if(err!=null && register_msg==null && logout_msg==null){
-                    %>
-                    <%=err%>
-                    <%
-                        }
-                        else if(register_msg!=null && err==null && logout_msg==null){
-                    %>
-                    <%=register_msg%>
-                    <%
-                        }
-                        else if(register_msg==null && err==null && logout_msg!=null){
-                    %>
-                    <%=logout_msg%>
-                    <%
-                        }
-                    %>
-                    </span></center>
+                    <center><span><%= (request.getParameter("msg") == null) ? "": request.getParameter("msg")%></span></center>
+                       
                     <label for="username">Username</label>
                     <input type="text" name="username" placeholder="Username"/>
                     <label for="password">Password</label>

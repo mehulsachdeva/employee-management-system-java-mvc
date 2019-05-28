@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import="java.time.*"%>
-<%@page import="java.sql.ResultSet"%>
+<%@page import="com.aspire.bean.AdminBean"%>
+<%@page import="com.aspire.dao.SearchBoxDao"%>
 <%@page import="java.sql.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -44,12 +45,12 @@
 <body>
 
 	<% 
-		String username = "";
-		if(session.getAttribute("login_username")==null){
+		AdminBean adminBean = (AdminBean) session.getAttribute("adminBean");
+		String username = null;
+		if(adminBean == null){
 			response.sendRedirect("../login.jsp");
 		}else{
-			username = (String)session.getAttribute("login_username");
-		}
+			username = adminBean.getUsername();
     %>
     
     <nav>
@@ -126,46 +127,20 @@
                 <input type="submit" value="SEARCH" />
             </center>
         </form>
-        <center>
-        
-        <%
-			//String msg = (String)request.getAttribute("msg");
-	    	String msg = request.getParameter("msg");
-			if(msg!=null){
-		%>
-		
-		<span class="msg"><%= msg%></span>
-		
-		<%
-			}
-		%>
-		
-		</center>
+        <center><span class="msg"><%= (request.getParameter("msg") == null)? "": request.getParameter("msg")%></span></center>
     </div>
     
     <%
-       	ResultSet result;
-       	String sql_search_query = "";
-       	PreparedStatement p;
-       	String query = request.getParameter("search_query");
-        Class.forName("com.mysql.jdbc.Driver");
-		String url = "jdbc:mysql://localhost/test?user=mehul&password=mehul";	
-        Connection con = DriverManager.getConnection(url);
-        if(query==null){
-            sql_search_query = "select * from employee_task_tracker order by status desc";
-            p = con.prepareStatement(sql_search_query);
-        }else{
-            sql_search_query = "select * from employee_task_tracker where emp_id LIKE ? or task_id LIKE ? or task_name LIKE ? or skills_required LIKE ? or deadline LIKE ? or status LIKE ? order by status desc";
-            p = con.prepareStatement(sql_search_query);
-            p.setString(1, "%" + query + "%");
-            p.setString(2, "%" + query + "%");
-            p.setString(3, "%" + query + "%");
-            p.setString(4, "%" + query + "%");
-            p.setString(5, "%" + query + "%");
-            p.setString(6, "%" + query + "%");
-        }
-        result = p.executeQuery();
+	    String search_query = request.getParameter("search_query");
+		SearchBoxDao searchBoxDao = new SearchBoxDao();
+	    ResultSet result = null;
+	    try{
+	    	result = searchBoxDao.displayTasks(search_query);
+	    }catch(Exception e){}
+	    
+	    if(result != null){ 
      %>
+     
      <div>
 	     <table id="employees">
 	
@@ -232,6 +207,9 @@
 
             </table>
         </div>
-        
+    <%
+			}
+		}
+    %>
 </body>
 </html>

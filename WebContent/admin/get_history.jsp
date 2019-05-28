@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.*"%>
-
+<%@page import="com.aspire.bean.AdminBean" %>
+<%@page import="com.aspire.dao.SearchBoxDao" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,13 +18,13 @@
 </head>
 <body>
 	<% 
-		String username = "";
-		if(session.getAttribute("login_username")==null){
+		AdminBean adminBean = (AdminBean) session.getAttribute("adminBean");
+		String username = null;
+		if(adminBean == null){
 			response.sendRedirect("../login.jsp");
 		}else{
-			username = (String)session.getAttribute("login_username");
-		}
-     %>
+			username = adminBean.getUsername();
+    %>
      <nav>
         <div id="logo">Employee Management System</div>
 
@@ -100,6 +101,17 @@
         </center>
     </form>
     
+    <%
+		String search_query = request.getParameter("search_query");
+  	    SearchBoxDao searchBoxDao = new SearchBoxDao();
+  	    ResultSet result = null;
+  	    try{
+  	    	result = searchBoxDao.displayHistory(search_query);
+  	    }catch(Exception e){}
+  	    
+  	    if(result != null){
+	%>
+	
 	<div>
 		<table id="employees">
 		<tr>	
@@ -116,30 +128,8 @@
 		</tr>
 		
 	<%
-		ResultSet result = null;
-		String sql_search_query = "";
-		PreparedStatement ps;
-		String query = request.getParameter("search_query");
-		Class.forName("com.mysql.jdbc.Driver");
-		String url = "jdbc:mysql://localhost/test?user=mehul&password=mehul";	
-	    Connection con = DriverManager.getConnection(url);
-	    if(query==null){
-		    ps = con.prepareStatement("select * from history");
-	    }else{
-	    	sql_search_query = "select * from history where emp_id LIKE ? or firstname LIKE ? or lastname LIKE ? or department LIKE ? or designation LIKE ? or doj LIKE ? or year LIKE ?";
-            ps = con.prepareStatement(sql_search_query);
-            ps.setString(1, "%" + query + "%");
-            ps.setString(2, "%" + query + "%");
-            ps.setString(3, "%" + query + "%");
-            ps.setString(4, "%" + query + "%");
-            ps.setString(5, "%" + query + "%");
-            ps.setString(6, "%" + query + "%");
-            ps.setString(7, "%" + query + "%");
-	    }
-	    result = ps.executeQuery();
-	    while(result.next()){
+		while(result.next()){
 	%>
-	
 		<tr>
 			<td><%= result.getString(1)%></td>
 			<td><%= result.getString(2)%></td>
@@ -153,10 +143,14 @@
 			<td><%= result.getString(10)%></td>
 		<tr>
 		
-	<%
+	<%	
 	    }
 	%>
 		</table>
 	</div>
+	<%
+	    	}
+		}
+	%>
 </body>
 </html>

@@ -1,9 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.*"%>
 <%@page import="java.util.Base64"%>
 <%@page import="java.io.OutputStream"%>
+<%@page import="com.aspire.bean.EmployeeBean" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,15 +15,16 @@
 <link rel="stylesheet" type="text/css" href="../css/manage_employees.css" />
 </head>
 <body>
-		<% 
-			String username = "";
-			if(session.getAttribute("login_username")==null){
-				response.sendRedirect("../login.jsp");
-			}else{
-				username = (String)session.getAttribute("login_username");
-			}
-        %>
-     <nav>
+
+	<% 
+		EmployeeBean employeeBean = (EmployeeBean) session.getAttribute("employeeBean");
+		String username = null;
+		if(employeeBean == null){
+			response.sendRedirect("../login.jsp");
+		}else{
+			username = employeeBean.getUsername();
+    %>
+    <nav>
    	<div id="logo">Employee Management System</div>
 
 	<label for="drop" class="toggle">Menu</label>
@@ -84,89 +86,81 @@
 	    </ul>
 	</nav>
 	
-	<%
-		String id = "";
-		Class.forName("com.mysql.jdbc.Driver");
-		String url = "jdbc:mysql://localhost/test?user=mehul&password=mehul";	
-	    Connection con = DriverManager.getConnection(url);
-	    PreparedStatement ps = con.prepareStatement("select emp_id from employee where username=?");
-	    ps.setString(1, username);
-	    ResultSet res = ps.executeQuery();
-	    if(res.next()){
-	    	id = res.getString(1);
-	    }
-	    
-	    String sql_search_query = "select * from employee where emp_id=?";
-	  
-	    PreparedStatement p = con.prepareStatement(sql_search_query);
-	    p.setString(1, id);
-	    ResultSet result = p.executeQuery();
-	    if(result.next()){
-	    	Blob image = result.getBlob(15);
-            byte[] imgData = image.getBytes(1,(int)image.length());
-            String imgDataBase64=new String(Base64.getEncoder().encode(imgData));
+	<%   		
+        String imgDataBase64 = new String(Base64.getEncoder().encode(employeeBean.getPhoto()));
+        String emp_id = employeeBean.getEmp_id();
+        String fullname = employeeBean.getFirstname() + " " + employeeBean.getLastname();
+        String uname = employeeBean.getUsername();
+        String gender = employeeBean.getGender();
+        String dob = employeeBean.getDob();
+        String email = employeeBean.getEmail();
+        String contact = employeeBean.getContact();
+        String doj = employeeBean.getDoj();
+        String address = employeeBean.getAddress();
+        String department = employeeBean.getDepartment();
+        String designation = employeeBean.getDesignation();
+        String salary = employeeBean.getSalary();
 	%>
 	<center><h3>Details</h3></center>
 	<div>
 	<table id="employees">
 		<tr>
 			<td>Employee ID</td>
-			<td><%= result.getString(1) %></td>
+			<td><%= emp_id %></td>
 		</tr>
 		<tr>
 			<td>Photo and Name</td>
 			<td>
 				<figure>
 					<img src="data:image/gif;base64,<%= imgDataBase64 %>" height="120" width="100" />
-					<figcaption><%= result.getString(2) %> <%= result.getString(3) %></figcaption>
+					<figcaption><%= fullname %></figcaption>
 				</figure>
 			</td>
 		</tr>
 		<tr>
 			<td>Username</td>
-			<td><%= result.getString(4) %></td>
+			<td><%= uname %></td>
 		</tr>
 		<tr>
 			<td>Gender</td>
-			<td><%= result.getString(6) %></td>
+			<td><%= gender %></td>
 		</tr>
 		<tr>
 			<td>Date Of Birth</td>
-			<td><%= result.getString(7) %></td>
+			<td><%= dob %></td>
 		</tr>
 		<tr>
 			<td>Email</td>
-			<td><%= result.getString(8) %></td>
+			<td><%= email %></td>
 		</tr>
 		<tr>
 			<td>Contact</td>
-			<td><%= result.getString(9) %></td>
+			<td><%= contact %></td>
 		</tr>
 		<tr>
 			<td>Date Of Joining</td>
-			<td><%= result.getString(10) %></td>
+			<td><%= doj %></td>
 		</tr>
 		<tr>
 			<td>Address</td>
-			<td><%= result.getString(11) %></td>
+			<td><%= address %></td>
 		</tr>
 		<tr>
 			<td>Department</td>
-			<td><%= result.getString(12) %></td>
+			<td><%= department %></td>
 		</tr>
 		<tr>
 			<td>Designation</td>
-			<td><%= result.getString(13) %></td>
+			<td><%= designation %></td>
 		</tr>
 		<tr>
 			<td>Salary</td>
-			<td><%= result.getString(14) %></td>
+			<td><%= salary %></td>
 		</tr>
 	</table>
 	</div>
 	<%
-	    }
+		}
 	%>
-	
 </body>
 </html>

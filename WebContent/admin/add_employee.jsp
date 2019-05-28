@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@page import="com.aspire.bean.AdminBean" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,14 +11,16 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body>
+
 	<% 
-	    String username = "";
-		if(session.getAttribute("login_username")==null){
+		AdminBean adminBean = (AdminBean) session.getAttribute("adminBean");
+		String username = null;
+		if(adminBean == null){
 			response.sendRedirect("../login.jsp");
 		}else{
-			username = (String)session.getAttribute("login_username");
-		}
-	%>
+			username = adminBean.getUsername();
+    %>
+    
     <nav>
         <div id="logo">Employee Management System</div>
 
@@ -88,31 +90,10 @@
 	</nav>
 	
 	<div>
-		<center>
-	        <center><h3>Add Employee</h3></center>
-	        
-	        <%
-	            String error = request.getParameter("error");
-	        	String msg = request.getParameter("msg");
-	            if(error!=null && msg==null){
-	        %>
-	        
-	        <span class="error"><%= error%></span>
-	        
-	        <%
-	            }
-	            else if(error==null && msg!=null){
-	        %>
-	        
-	        <span class="error"><%= msg%></span>
-	        
-	        <%
-				}
-			%>
-			
-		</center>
+        <center><h3>Add Employee</h3></center>
+        <center><span class="msg"><%= (request.getParameter("msg") == null)? "": request.getParameter("msg")%></span></center>
  	
-       	<form action="../add_table_employee" method="POST" enctype="multipart/form-data">
+       	<form action="../EmployeeServlet" method="POST" enctype="multipart/form-data">
             
             <label for="emp_name">Employee Name</label><br>
             <input type="text" name="emp_fname" class="fname" id="fname" placeholder="First Name" onchange="displayUsername()" />
@@ -200,5 +181,8 @@
             }
         </script>
     </div>
+    <%
+    	} 
+    %>
 </body>
 </html>

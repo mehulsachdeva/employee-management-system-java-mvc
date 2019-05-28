@@ -1,7 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.*"%>
+<%@page import="com.aspire.bean.EmployeeBean"%>
+<%@page import="com.aspire.dao.ViewAttendanceDao"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,15 +14,15 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-		<% 
-			String username = "";
-			if(session.getAttribute("login_username")==null){
-				response.sendRedirect("../login.jsp");
-			}else{
-				username = (String)session.getAttribute("login_username");
-			}
-        %>
-     <nav>
+	<% 
+		EmployeeBean employeeBean = (EmployeeBean) session.getAttribute("employeeBean");
+		String username = null;
+		if(employeeBean == null){
+			response.sendRedirect("../login.jsp");
+		}else{
+			username = employeeBean.getUsername();
+    %>
+    <nav>
    	<div id="logo">Employee Management System</div>
 
 	<label for="drop" class="toggle">Menu</label>
@@ -83,23 +85,13 @@
 	</nav>
 	<div>
 	<%
-		String id = "";
-       	String query = request.getParameter("search_query");
-        Class.forName("com.mysql.jdbc.Driver");
-		String url = "jdbc:mysql://localhost/test?user=mehul&password=mehul";	
-        Connection con = DriverManager.getConnection(url);
-        PreparedStatement ps = con.prepareStatement("select emp_id from employee where username=?");
-        ps.setString(1, username);
-        ResultSet res = ps.executeQuery();
-        if(res.next()){
-        	id = res.getString(1);
-        }
-        
-        String sql_search_query = "select date, attendance from employee_attendance where emp_id=?";
-      
-        PreparedStatement pi = con.prepareStatement(sql_search_query);
-        pi.setString(1, id);
-        ResultSet result = pi.executeQuery();
+		ResultSet resultSet = null;
+	    String emp_id = employeeBean.getEmp_id();
+		ViewAttendanceDao viewAttendanceDao = new ViewAttendanceDao();
+		try{
+			resultSet = viewAttendanceDao.viewAttendance(emp_id);
+		}catch(Exception e){}
+		if(resultSet != null){
     %>
     <center><h3>Attendance</h3></center>
     <div>
@@ -109,27 +101,31 @@
            <th>Attendance</th>
        </tr>
        <%
-       	while(result.next()){
+       		while(resultSet.next()){
        %>
-         	<td><%= result.getString(1)%></td>
+         	<td><%= resultSet.getString(1)%></td>
          	
        <%
-       		if((result.getString(2)).equals("Present")){
+       			if((resultSet.getString(2)).equals("Present")){
        %>
-       <td><span style="color:green;"><%= result.getString(2)%></span></td>
+       <td><span style="color:green;"><%= resultSet.getString(2)%></span></td>
        <%
-       		}else{
+       			}else{
        %>
-       <td><span style="color:red;"><%= result.getString(2)%></span></td>
+       <td><span style="color:red;"><%= resultSet.getString(2)%></span></td>
        <%
-       		}
+       			}
        %> 	
        </tr>
        <%
-       	}
+       		}
        %>
                    
        </table>
    </div>
+   <%
+			}
+		}
+   %>
 </body>
 </html>

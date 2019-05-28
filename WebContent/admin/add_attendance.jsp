@@ -2,7 +2,8 @@
 <%@page import="java.util.*"%>
 <%@page import="java.sql.*"%>
 <%@page import="java.time.*"%>
-
+<%@page import="com.aspire.bean.AdminBean"%>
+<%@page import="com.aspire.dao.AttendanceDao"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,16 +14,15 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-	<%
-		// check for session
-		String username = "";
-		if(session.getAttribute("login_username")==null){
+
+	<% 
+		AdminBean adminBean = (AdminBean) session.getAttribute("adminBean");
+		String username = null;
+		if(adminBean == null){
 			response.sendRedirect("../login.jsp");
 		}else{
-			username = (String)session.getAttribute("login_username");
-		}        
-	%>
-	
+			username = adminBean.getUsername();
+    %>    
 	<!-- Navigation Bar -->
     <nav>
    		<div id="logo">Employee Management System</div>
@@ -92,19 +92,15 @@
 	</nav>
 	
 	<%
-		// connection with mysql
-		Class.forName("com.mysql.jdbc.Driver");
-		String url = "jdbc:mysql://localhost/test?user=mehul&password=mehul";	
-	    Connection con = DriverManager.getConnection(url);
-		
-	    // get today's date
 	    LocalDate now = LocalDate.now();
 		String date = now.getDayOfMonth() + "/" + now.getMonthValue() + "/" + now.getYear();
-		
-		PreparedStatement p = con.prepareStatement("select * from employee_attendance where date=?");
-		p.setString(1, date);
-		ResultSet res = p.executeQuery();
-		if(res.next()){
+
+		boolean flag = false;
+		AttendanceDao attendanceDao = new AttendanceDao();
+		try{
+			flag = attendanceDao.checkAttendanceForToday(date);
+		}catch(Exception e){}
+		if(flag){
 	%>	
 	
 	<center><h3>Attendance Submitted For Today</h3></center>
@@ -116,7 +112,7 @@
 	<center><h3>Attendance For <%= date%></h3></center>
 	
 	<div>
-		<form action="../store_attendance" method="POST">
+		<form action="../AttendanceServlet" method="POST">
 			<center>
 				<label class="label_attendance_upload">
 					<i class="fa fa-cloud-upload">&nbsp;&nbsp;</i>Upload CSV File For Attendance&nbsp;
@@ -136,13 +132,16 @@
 				</tr>
 				
 				<%
-					PreparedStatement ps = con.prepareStatement("select emp_id, firstname, lastname from employee");
-					ResultSet result = ps.executeQuery();
-					while(result.next()){
+					ResultSet result = null;
+					try{
+						result = attendanceDao.getEmployees();
+					}catch(Exception e){}
+					if(result != null){
+						while(result.next()){
 				%>
 				
 				<tr>
-					<td><%= result.getString(1)%></th>
+					<td><%= result.getString(1)%></td>
 					<td><%= result.getString(2)%></td>
 					<td><%= result.getString(3)%></td>
 					<td>
@@ -156,6 +155,7 @@
 				</tr>
 				<%
 						}
+					}
 				%>
 			</table>
 			<center><input type="submit" value="SUBMIT" /></center>
@@ -163,6 +163,7 @@
 	</div>
 	
 	<%
+			}
 		}
 	%>
 	

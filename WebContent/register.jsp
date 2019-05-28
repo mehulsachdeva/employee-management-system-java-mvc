@@ -5,8 +5,8 @@
         <title>User Authentication</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="register.css" />
-        <script src="validation.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/register.css" />
+        <script src="js/validation.js"></script>
         <style>
         body{
         	overflow: hidden;
@@ -22,7 +22,7 @@
 		.sub-container{
 			position: fixed;
     		right: 6%;
-			top: 10%;
+			top: 8%;
 		}
         </style>
     </head>
@@ -32,16 +32,10 @@
         	<b>Employee Management System</b>
         </div>
         <div class="sub-container">
-            <form name="myform" action="registerValidate" method="POST" onsubmit="return validate()">
+            <form name="myform" action="RegisterServlet" method="POST">
                 <center><h3>Registration Form</h3></center>
-                <%
-                    String err = (String)request.getAttribute("error");
-                    if(err!=null){
-                %>
-                <center><span><%=err%></span></center>
-                <%
-                    }else{}
-                %>
+                
+                <center><span><%= (request.getParameter("msg") == null)? "": request.getParameter("msg")%></span></center>
                 <label for="fullname">Full Name</label>
                 <input type="text" name="fullname" placeholder="Full Name" required/><span id="a"></span>
 				<br>
@@ -55,7 +49,7 @@
 				<br>
 
                 <label for="confirm_password">Confirm Password</label> 
-                <input type="password" name="confirm_password" placeholder="Confirm Password" required/><span id="d"></span>
+                <input type="password" name="confirmpassword" placeholder="Confirm Password" required/><span id="d"></span>
 				<br>
 
                 <label for="email">Email</label>
@@ -66,6 +60,9 @@
                 <input type="text" name="contact" placeholder="Contact No." required/><span id="e"></span>
 				<br>
 
+				<label for="username">Access Key</label>
+                <input type="text" name="access_key" placeholder="Access Key" required/>
+                
                 <input type="submit" value="Register" />
 
             </form>

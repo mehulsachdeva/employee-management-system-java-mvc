@@ -22,7 +22,7 @@
 	   	if(result.next()){
 	%>
 	
-	<form action="../update_task" method="POST">
+	<form action="../UpdateTaskServlet" method="POST">
                                     
             <label for="emp_id">Employee ID</label>
             <input type="text" class="fields" value = "<%= result.getString(1)%>" name="emp_id" placeholder="Employee ID" readonly="readonly"/><br>

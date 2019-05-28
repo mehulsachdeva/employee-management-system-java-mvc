@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page import="com.aspire.bean.EmployeeBean"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>EMS | Employee</title>
 <link rel="stylesheet" href="../css/add_employee.css" type="text/css" />
 <link rel="stylesheet" href="../css/navigation.css" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -19,15 +19,15 @@
 <script type="text/javascript" src="../js/main.js"></script>					
 </head>
 <body>
-		<% 
-			String username = "";
-			if(session.getAttribute("login_username")==null){
-				response.sendRedirect("../login.jsp");
-			}else{
-				username = (String)session.getAttribute("login_username");
-			}
-        %>
-     <nav>
+	<% 
+		EmployeeBean employeeBean = (EmployeeBean) session.getAttribute("employeeBean");
+		String username = null;
+		if(employeeBean == null){
+			response.sendRedirect("../login.jsp");
+		}else{
+			username = employeeBean.getUsername();
+    %>
+    <nav>
    	<div id="logo">Employee Management System</div>
 
 	<label for="drop" class="toggle">Menu</label>
@@ -90,75 +90,78 @@
 	</nav>
 	
 	<section class="banner full">
-				<article>
-					<img src="../images/slide02.jpg" alt="" />
-					<div class="inner">
-						<header>
-							<h2>Positive Attitutde</h2><span>Creating a good environment</span>
-						</header>
-					</div>
-				</article>
-				<article>
-					<img src="../images/slide01.jpg" alt="" />
-					<div class="inner">
-						<header>
-							<h2>Self Motivated</h2><span>Working effectively with little direction</span>
-						</header>
-					</div>
-				</article>
-				<article>
-					<img src="../images/slide03.jpg"  alt="" />
-					<div class="inner">
-						<header>
-							<h2>Team Oriented</h2><span>Making the most out of collaboration</span>
-						</header>
-					</div>
-				</article>
-				<article>
-					<img src="../images/slide04.jpg"  alt="" />
-					<div class="inner">
-						<header>
-							<h2>Strong work ethic</h2><span>Setting and acheiving goals </span>
-						</header>
-					</div>
-				</article>	
-			</section>
+		<article>
+			<img src="../images/background_slide02.jpg" alt="" />
+			<div class="inner">
+				<header>
+					<h2>Positive Attitutde</h2><span>Creating a good environment</span>
+				</header>
+			</div>
+		</article>
+		<article>
+			<img src="../images/background_slide01.jpg" alt="" />
+			<div class="inner">
+				<header>
+					<h2>Self Motivated</h2><span>Working effectively with little direction</span>
+				</header>
+			</div>
+		</article>
+		<article>
+			<img src="../images/background_slide03.jpg"  alt="" />
+			<div class="inner">
+				<header>
+					<h2>Team Oriented</h2><span>Making the most out of collaboration</span>
+				</header>
+			</div>
+		</article>
+		<article>
+			<img src="../images/background_slide04.jpg"  alt="" />
+			<div class="inner">
+				<header>
+					<h2>Strong work ethic</h2><span>Setting and acheiving goals </span>
+				</header>
+			</div>
+		</article>	
+	</section>
 			
-			<section class="banner full">
-			<article>
-			<img src="../images/slide04.jpg"  alt="" />
-				<div class="inner"><header>
-	<div>
-  <div class="hoc container clear"> 
-      <h2 class="heading font-x2">About Creators</h2>
-    </div>
-    <ul class="nospace group team">
-    <li class="one_third first">
-        <figure>
-          <figcaption><strong>Mehul Sachdeva</strong> <em>Developer</em><em>VIT University</em></figcaption>
-        </figure>
-      </li>
-      <li class="one_third">
-        <figure>
-          <figcaption><strong>Aadarsh Kumar</strong> <em>Developer</em><em>VIT University</em></figcaption>
-        </figure>
-      </li>
-      <li class="one_third">
-        <figure>
-          <figcaption><strong>Abhinav Raj</strong> <em>Developer</em><em>VIT University</em></figcaption>
-        </figure>
-      </li>
-    </ul>
-    </div>
-    </header>
-  </div>
+	<section class="banner full">
+	<article>
+	<img src="../images/background_slide04.jpg"  alt="" />
+		<div class="inner"><header>
+		<div>
+		  <div class="hoc container clear"> 
+		      <h2 class="heading font-x2">About Creators</h2>
+		    </div>
+		    <ul class="nospace group team">
+		    <li class="one_third first">
+		        <figure>
+		          <figcaption><strong>Mehul Sachdeva</strong> <em>Developer</em><em>VIT University</em></figcaption>
+		        </figure>
+		      </li>
+		      <li class="one_third">
+		        <figure>
+		          <figcaption><strong>Aadarsh Kumar</strong> <em>Developer</em><em>VIT University</em></figcaption>
+		        </figure>
+		      </li>
+		      <li class="one_third">
+		        <figure>
+		          <figcaption><strong>Abhinav Raj</strong> <em>Developer</em><em>VIT University</em></figcaption>
+		        </figure>
+		      </li>
+		    </ul>
+		    </div>
+		    </header>
+		  </div>
 
-</article>
-			</section>
-				<footer>
-				<div class="copyright">
-					&copy; Untitled. All rights reserved.
-				</div>
-			</footer>
+	</article>
+	</section>
+	<footer>
+		<div class="copyright">
+			&copy; All rights reserved.
+		</div>
+	</footer>
+	<%
+		}
+	%>
 </body>
 </html>

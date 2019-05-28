@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page import="com.aspire.bean.EmployeeBean"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,15 +10,17 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-		<% 
-			String username = "";
-			if(session.getAttribute("login_username")==null){
-				response.sendRedirect("../login.jsp");
-			}else{
-				username = (String)session.getAttribute("login_username");
-			}
-        %>
-        <nav>
+	
+	<% 
+		EmployeeBean employeeBean = (EmployeeBean) session.getAttribute("employeeBean");
+		String username = null;
+		if(employeeBean == null){
+			response.sendRedirect("../login.jsp");
+		}else{
+			username = employeeBean.getUsername();
+    %>
+    
+    <nav>
    	<div id="logo">Employee Management System</div>
 
 	<label for="drop" class="toggle">Menu</label>
@@ -81,6 +83,7 @@
 	</nav>
 	<div>	
 	<center><h3>Apply Leave</h3></center>
+	
      		<%
      			String msg = request.getParameter("msg");
      			if(msg!=null){
@@ -90,7 +93,7 @@
      			}
      		%>
      		
-            <form action="../apply_table_leave" method="POST">
+            <form action="../LeaveServlet" method="POST">
                                     
             <label for="from_date">From Date</label>
             <input type="text" class="fields" name="from_date" placeholder="DD/MM/YYYY" /><br>
@@ -107,5 +110,10 @@
             </center>  
         </form>
      </div>
+     
+     <%
+		}
+     %>
+     
 </body>
 </html>
