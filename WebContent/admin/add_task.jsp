@@ -94,19 +94,19 @@
             <form action="../TaskServlet" method="POST">
                                     
             <label for="emp_id">Employee ID</label>
-            <input type="text" class="fields" name="emp_id" placeholder="Employee ID" /><br>
+            <input type="text" class="fields" name="emp_id" placeholder="Employee ID" required/><br>
 
             <label for="task_name">Task Name</label>
-            <input type="text" class="fields" name="task_name" placeholder="Task Name" />
+            <input type="text" class="fields" name="task_name" placeholder="Task Name" required/>
             
             <label for="skills_req">Skills Required</label>
-            <input type="text" class="fields" name="skills_req" placeholder="Skills Required" />
+            <input type="text" class="fields" name="skills_req" placeholder="Skills Required" required/>
                          
             <label for="start_date">Start Date</label>
-            <input type="text" class="fields" name="start_date" placeholder="DD/MM/YYYY" /><br>
+            <input type="text" class="fields" name="start_date" placeholder="DD/MM/YYYY" required/><br>
             
             <label for="deadline">Deadline</label>
-            <input type="text" class="fields" name="deadline" placeholder="DD/MM/YYYY" />
+            <input type="text" class="fields" name="deadline" placeholder="DD/MM/YYYY" required/>
                     
             <center>
             	<input type="submit" value="SUBMIT" />

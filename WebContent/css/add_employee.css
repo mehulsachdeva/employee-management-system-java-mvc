@@ -60,10 +60,7 @@ input[type=submit]:hover{
 a{
     text-decoration: none;
 }
-.msg {
-    color: red;
-    font-size: 15px;
-}
+
 label{
     font-size: 14px;
 }

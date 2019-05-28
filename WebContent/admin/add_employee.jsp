@@ -9,6 +9,12 @@
 <link rel="stylesheet" href="../css/navigation.css" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<style>
+.msg {
+    color: red;
+    font-size: 15px;
+}
+</style>
 </head>
 <body>
 
@@ -96,14 +102,14 @@
        	<form action="../EmployeeServlet" method="POST" enctype="multipart/form-data">
             
             <label for="emp_name">Employee Name</label><br>
-            <input type="text" name="emp_fname" class="fname" id="fname" placeholder="First Name" onchange="displayUsername()" />
-            <input type="text" name="emp_lname" class="lname" id="lname" placeholder="Last Name" onchange="displayUsername()"/>
+            <input type="text" name="emp_fname" class="fname" id="fname" placeholder="First Name" onchange="displayUsername()" required/>
+            <input type="text" name="emp_lname" class="lname" id="lname" placeholder="Last Name" onchange="displayUsername()" required/>
             
             <label for="username">Username</label>
-            <input type="text" class="fields" id="username" name="username" placeholder="Username" />
+            <input type="text" class="fields" id="username" name="username" placeholder="Username" required/>
             
             <label for="password">Password</label>
-            <input type="password" class="fields" name="password" placeholder="Password" />
+            <input type="password" class="fields" name="password" placeholder="Password" required/>
             
             <label for="gender">Gender</label>
             <select name="gender">
@@ -113,22 +119,22 @@
             </select>
             
             <label for="emp_dob">Date Of Birth</label>
-            <input type="text" class="fields" name="emp_dob" placeholder="DD/MM/YYYY" />
+            <input type="text" class="fields" name="emp_dob" placeholder="DD/MM/YYYY" required/>
             
             <label for="emp_email">Email</label>
-            <input type="text" class="fields" name="emp_email" placeholder="Email" />
+            <input type="text" class="fields" name="emp_email" placeholder="Email" required/>
             
             <label for="emp_contact">Contact Number</label>
-            <input type="text" class="fields" name="emp_contact" placeholder="Contact Number" />
+            <input type="text" class="fields" name="emp_contact" placeholder="Contact Number" required/>
             
             <label for="emp_doj">Date Of Joining</label>
-            <input type="text" class="fields" name="emp_doj" placeholder="DD/MM/YYYY" />
+            <input type="text" class="fields" name="emp_doj" placeholder="DD/MM/YYYY" required/>
             
             <label for="emp_address">Address</label>
-            <input type="text" class="fields" name="emp_address" placeholder="Address" />
+            <input type="text" class="fields" name="emp_address" placeholder="Address" required/>
             
             <label for="emp_department">Department</label>
-            <input type="text" class="fields" name="emp_department" placeholder="Department/Division"/>
+            <input type="text" class="fields" name="emp_department" placeholder="Department/Division" required/>
             
             <label for="emp_designation">Designation</label>
             <select name="emp_designation">
@@ -145,7 +151,7 @@
             </select>
             
             <label for="emp_salary">Salary</label>
-            <input type="text" class="fields" name="emp_salary" placeholder="Salary" value="0"/>
+            <input type="text" class="fields" name="emp_salary" placeholder="Salary" value="0" required/>
           
             <label for="upload">Upload Employee Passport Size Photo</label><br>
             <figure>
@@ -157,32 +163,10 @@
             <input type="reset" value="RESET" />
             
         </form>
-        
-        <script type="text/javascript">
-            function readURL(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-
-                    reader.onload = function(e) {
-                      $('#preview_photo').attr('src', e.target.result);
-                    }
-
-                    reader.readAsDataURL(input.files[0]);
-                  }
-            }
-            $("#photo").change(function() {
-                readURL(this);
-            });
-            
-            function displayUsername(){
-            	var fname = document.getElementById("fname").value.toLowerCase();
-            	var lname = document.getElementById("lname").value.toLowerCase();
-            	document.getElementById("username").defaultValue = fname + "." + lname;
-            }
-        </script>
     </div>
     <%
     	} 
     %>
+    <script src="../js/profile_previewer.js" type="text/javascript"></script>
 </body>
 </html>

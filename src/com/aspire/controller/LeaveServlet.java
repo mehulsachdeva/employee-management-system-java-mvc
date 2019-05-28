@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import com.aspire.bean.LeaveBean;
 import com.aspire.bean.EmployeeBean;
 import com.aspire.dao.LeaveDao;
+import com.aspire.service.UserService;
 
 
 @WebServlet("/LeaveServlet")
@@ -43,16 +44,26 @@ public class LeaveServlet extends HttpServlet {
 		leaveBean.setReason(reason);
 		leaveBean.setStatus(status);
 		
-		LeaveDao leaveDao = new LeaveDao();
 		
-		try {
-			String result = leaveDao.applyLeave(leaveBean, emp_id);
-			if(result.equals("Leave Applied Successfully")) {
-				response.sendRedirect("employee/apply_leave.jsp?msg=" + result);
-			}else {
-				response.sendRedirect("employee/apply_leave.jsp?msg=" + result);
-			}
-		}catch(Exception e) {}
+		UserService userService = new UserService();
+		
+		String leave_msg = userService.leaveValidation(leaveBean);
+		
+		if(leave_msg.equals("Success")) {
+			LeaveDao leaveDao = new LeaveDao();
+			
+			try {
+				String result = leaveDao.applyLeave(leaveBean, emp_id);
+				if(result.equals("Leave Applied Successfully")) {
+					response.sendRedirect("employee/apply_leave.jsp?msg=" + result);
+				}else {
+					response.sendRedirect("employee/apply_leave.jsp?msg=" + result);
+				}
+			}catch(Exception e) {}
+		}else {
+			response.sendRedirect("employee/apply_leave.jsp?msg=" + leave_msg);
+		}
+		
 	}
 
 }

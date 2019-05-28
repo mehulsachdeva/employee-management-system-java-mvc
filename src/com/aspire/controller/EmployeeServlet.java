@@ -74,17 +74,25 @@ public class EmployeeServlet extends HttpServlet {
         employeeBean.setSalary(salary);
         employeeBean.setPhoto(photo);
         
-        EmployeeDao employeeDao = new EmployeeDao();
-        boolean flag = false;
-        try {
-        	flag = employeeDao.addEmployee(employeeBean);
-        	if(flag) {
-        		String msg = "Employee Added Successfully";
-        		response.sendRedirect("admin/add_employee.jsp?msg=" + msg);
-        	}else {
-        		String msg = "Oops...Error In Adding Employee";
-        		response.sendRedirect("admin/add_employee.jsp?msg=" + msg);
-        	}
-        }catch(Exception e) {}
+        UserService userService = new UserService();
+        
+        String employee_msg = userService.employeeValidation(employeeBean);
+        
+        if(employee_msg.equals("Success")) {
+	        EmployeeDao employeeDao = new EmployeeDao();
+	        boolean flag = false;
+	        try {
+	        	flag = employeeDao.addEmployee(employeeBean);
+	        	if(flag) {
+	        		String msg = "Employee Added Successfully";
+	        		response.sendRedirect("admin/add_employee.jsp?msg=" + msg);
+	        	}else {
+	        		String msg = "Oops...Error In Adding Employee";
+	        		response.sendRedirect("admin/add_employee.jsp?msg=" + msg);
+	        	}
+	        }catch(Exception e) {}
+        }else {
+        	response.sendRedirect("admin/add_employee.jsp?msg=" + employee_msg);
+        }
 	}
 }

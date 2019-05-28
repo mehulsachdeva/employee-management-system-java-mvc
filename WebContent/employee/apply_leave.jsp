@@ -96,13 +96,13 @@
             <form action="../LeaveServlet" method="POST">
                                     
             <label for="from_date">From Date</label>
-            <input type="text" class="fields" name="from_date" placeholder="DD/MM/YYYY" /><br>
+            <input type="text" class="fields" name="from_date" placeholder="DD/MM/YYYY" required/><br>
             
             <label for="to_date">To Date</label>
-            <input type="text" class="fields" name="to_date" placeholder="DD/MM/YYYY" />
+            <input type="text" class="fields" name="to_date" placeholder="DD/MM/YYYY" required/>
             
             <label for="reason">Reason</label>
-            <input type="text" class="fields" name="reason" placeholder="Reason" />
+            <input type="text" class="fields" name="reason" placeholder="Reason" required/>
             
             <center>
             	<input type="submit" value="SUBMIT" />
