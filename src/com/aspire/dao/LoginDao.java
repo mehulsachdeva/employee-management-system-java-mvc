@@ -62,11 +62,16 @@ public class LoginDao {
 		return null;
 	}
 	public AdminBean authenticateAdmin(LoginBean loginBean) {
+		
+		final String secretKey = "secretkey";
 		AdminBean adminBean= new AdminBean();
 		
 		String username = loginBean.getUsername();
-		String password = loginBean.getPassword();
+		String pass = loginBean.getPassword();
 		
+		EncryptPassword encryptPassword = new EncryptPassword();
+        String password = encryptPassword.encrypt(pass, secretKey);
+        
 		Connection con = null;
 		PreparedStatement pa = null;
 		ResultSet res = null;

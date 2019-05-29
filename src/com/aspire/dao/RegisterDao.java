@@ -5,15 +5,21 @@ import java.sql.PreparedStatement;
 
 import com.aspire.bean.RegisterBean;
 import com.aspire.util.DBConnection;
+import com.aspire.util.EncryptPassword;
 
 public class RegisterDao {
 	public String registerUser(RegisterBean registerBean) {
 		
+		final String secretKey = "secretkey";
+		
 		String fullname = registerBean.getFullname();
 		String username = registerBean.getUsername();
-		String password = registerBean.getPassword();
+		String pass = registerBean.getPassword();
 		String email = registerBean.getEmail();
 		String contact = registerBean.getContact();
+		
+		EncryptPassword encryptPassword = new EncryptPassword();
+        String password = encryptPassword.encrypt(pass, secretKey);
 		
 		Connection con = null;
 		PreparedStatement p = null;
